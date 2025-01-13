@@ -1,5 +1,4 @@
 const axios = require("axios");
-const { errorMonitor } = require("mongodb/lib/apm");
 
 const createAPIClient = () => {
   try {

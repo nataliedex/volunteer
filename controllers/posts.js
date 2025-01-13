@@ -1,6 +1,4 @@
-const cloudinary = require("../middleware/cloudinary");
 const Post = require("../models/Post");
-const axios = require("axios");
 const createAPIClient = require("../middleware/apiConfig");
 
 
