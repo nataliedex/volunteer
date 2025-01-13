@@ -11,9 +11,7 @@ const validator = require("validator");
 const connectDB = require("./config/database");
 const mainRoutes = require("./routes/main");
 const postRoutes = require("./routes/posts");
-const apiConfigMiddleware = require("./middleware/apiConfig");
 
-app.use(apiConfigMiddleware); 
 
 //Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
@@ -22,24 +20,22 @@ require("dotenv").config({ path: "./config/.env" });
 require("./config/passport")(passport);
 
 //Connect To Database
-connectDB().then(() => {
+connectDB();
 // Setup Sessions - stored in MongoDB
-  app.use(
-    session({
-      secret: "keyboard cat",
-      resave: false,
-      saveUninitialized: false,
-      store: MongoStore.create({
-        mongoUrl: process.env.DB_STRING,
-       }),
-    })
-  );
-  //Server Running
-  app.listen(process.env.PORT || 8000, () => {
-    console.log(`Server is running on port ${process.env.PORT || 8000}`);
-  });
-});
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.DB_STRING,
+      }),
+  })
+);
 
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 //Using EJS for views
@@ -60,9 +56,6 @@ app.use(methodOverride("_method"));
 
 
 
-// Passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
 
 //Use flash messages for errors, info, ect...
 app.use(flash());
@@ -70,4 +63,9 @@ app.use(flash());
 //Setup Routes For Which The Server Is Listening
 app.use("/", mainRoutes);
 app.use("/post", postRoutes);
+
+//Server Running
+app.listen(process.env.PORT || 8000, () => {
+  console.log(`Server is running on port ${process.env.PORT || 8000}`);
+});
 
