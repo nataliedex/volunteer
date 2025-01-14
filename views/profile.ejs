@@ -1,0 +1,22 @@
+<%- include('partials/header') -%>
+<div class="container">
+  <div class="row mt-5">
+      <div class="col-6">
+          <div>
+              <p><strong>User Name</strong>: <%= user.userName %></p>
+              <p><strong>Email</strong>: <%= user.email %></p>
+              <a href="/logout" class="col-3 btn btn-primary">Logout</a>
+          </div>
+      <!-- openAI -->
+      </div>
+        <form id="chat-form" action="/chatWithAI" method="POST">
+            <input type="text" name="message" id="message" placeholder="Ask something..." />
+            <button type="submit">Send</button>
+        </form>
+        <div id="response"></div>
+    <!-- end of open AI --> 
+    </div>
+  </div>
+</div>
+<script src="/js/chat.js"></script>
+<%- include('partials/footer') -%>
