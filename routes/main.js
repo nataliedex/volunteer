@@ -13,9 +13,6 @@ router.post("/login", authController.postLogin);
 router.get("/logout", authController.logout);
 router.get("/signup", authController.getSignup);
 router.post("/signup", authController.postSignup);
-
-router.get("/features", homeController.getFeatures);
-router.get("/pricing", homeController.getPricing);
 router.get("/faqs", homeController.getFaqs);
 router.get("/about", homeController.getAbout);
 
