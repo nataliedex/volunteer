@@ -4,7 +4,13 @@ const User = require("../models/User");
 
 exports.getLogin = (req, res) => {
   if (req.user) {
-    return res.redirect("/profile");
+    console.log(req.user.userType);
+    if(req.user.userType === "Volunteer"){
+      return res.redirect("/profile");
+    } else {
+      return res.redirect("/organizations");
+    }
+    
   }
   res.render("login", {
     title: "Login",
@@ -45,14 +51,23 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.logout = (req, res) => {
-  req.logout(() => {
-    console.log('User has logged out.')
-  })
-  req.session.destroy((err) => {
-    if (err)
-      console.log("Error : Failed to destroy the session during logout.", err);
-    req.user = null;
-    res.redirect("/");
+  req.logout((err) => {
+    if (err) {
+      console.error("Logout error:", err);
+      return res.status(500).send("An error occurred during logout.");
+    }
+
+    if (req.session) {
+      req.session.destroy((destroyErr) => {
+        if (destroyErr) {
+          console.error("Error: Failed to destroy the session during logout.", destroyErr);
+        }
+        req.user = null;
+        res.redirect("/");
+      });
+    } else {
+      res.redirect("/");
+    }
   });
 };
 
@@ -85,6 +100,7 @@ exports.postSignup = async (req, res, next) => {
   });
 
   const user = new User({
+    userType: req.body.userType,
     userName: req.body.userName,
     email: req.body.email,
     password: req.body.password,

@@ -12,6 +12,14 @@ module.exports = {
       console.log(err);
     }
   },
+  getOrganizations: async (req, res) => {
+    try {
+      const posts = await Post.find({ user: req.user.id });
+      res.render("organizations.ejs", { posts: posts, user: req.user });
+    } catch (err) {
+      console.log(err);
+    }
+  },
   
   
 };

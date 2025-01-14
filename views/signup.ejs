@@ -14,13 +14,24 @@
                 <% } %>
                 <form action="/signup" method="POST">
                     <div class="mb-3">
+                      <label for="userType" class="form-label">Type of Sign Up</label>
+                      <div>
+                        <input type="radio" id="volunteer" name="userType" value="Volunteer">
+                        <label for="volunteer">Individual - looking for volunteer opportunities</label>
+                      </div>
+                      <div>
+                        <input type="radio" id="organization" name="userType" value="Organization">
+                        <label for="organization">Organization - looking for volunteers</label>
+                      </div>
+                    </div>
+                    <div class="mb-3">
                         <label for="userName" class="form-label">User Name</label>
                         <input type="text" class="form-control" id="userName" name="userName">
                       </div>
                     <div class="mb-3">
                       <label for="exampleInputEmail1" class="form-label">Email address</label>
                       <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
-                      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                      <div id="emailHelp" class="form-text"></div>
                     </div>
                     <div class="mb-3">
                       <label for="password" class="form-label">Password</label>
