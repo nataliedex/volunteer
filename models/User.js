@@ -8,6 +8,7 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   password: { type:String },
   about: { type: String },
+  cloudinaryId: { type: String },
   image: { type: String },
 });
 

@@ -2,6 +2,7 @@ const passport = require("passport");
 const validator = require("validator");
 const User = require("../models/User");
 
+
 exports.getLogin = (req, res) => {
   if (req.user) {
     console.log(req.user);
@@ -141,20 +142,3 @@ exports.postSignup = async (req, res, next) => {
     return next(err);
   }
 };
-
-exports.postUpdateAbout = async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const { about } = req.body;
-  
-    await User.findByIdAndUpdate(userId, { about: about.trim()});
-    res.redirect("/profile");
-  } catch (err) {
-    console.error("Error updating the About Me section: ", err);
-    res.status(500).send("Server Error");
-  }
-};
-
-
-
-
