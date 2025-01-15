@@ -18,8 +18,13 @@ exports.postUpdateAbout = async (req, res) => {
   
   exports.postUpdateImage = async (req, res) => {
     try {
+        const userId = req.user.id;
+        const user = await User.findById(userId);
+        if(user.cloudinaryId){
+            await cloudinary.uploader.destroy(user.cloudinaryId);
+        }
+    
       const result = await cloudinary.uploader.upload(req.file.path);
-      const userId = req.user.id;
       const image = result.secure_url;
       const cloudinaryId = result.public_id;
     
