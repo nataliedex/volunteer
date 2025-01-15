@@ -3,20 +3,51 @@
   <div class="row mt-5">
       <div class="col-6">
           <div>
-              <p><strong>User Name</strong>: <%= user.userName %></p>
+              <p><strong>Welcome</strong> <%= user.firstName %></p>
               <p><strong>Email</strong>: <%= user.email %></p>
               <a href="/logout" class="col-3 btn btn-primary">Logout</a>
           </div>
-      <!-- openAI -->
-      </div>
-        <form id="chat-form" action="/chatWithAI" method="POST">
-            <input type="text" name="message" id="message" placeholder="Ask something..." />
-            <button type="submit">Send</button>
-        </form>
-        <div id="response"></div>
-    <!-- end of open AI --> 
+          <section class="amount-me">
+            <div>
+              <div>
+                <% if(user.about){ %>
+                  <h3>About Me Section</h3>
+                  <p id="current-about-me"><%= user.about %></p>
+                  <button type="button" class="col-3 btn btn-primary" onclick="toggleEdit()" id="about-me-edit-button">Edit</button>
+                  
+                  <!-- toggle edit form -->
+                  <form id="edit-about-form" action="/update-about" method="POST" style="display: none;">
+                    <textarea type="text" name="about" class="about-me-input" placeholder="<%= user.about %>"value="<%= user.about %>"></textarea>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-secondary" id="exit-edit-mode" onclick="exitEdit()">Exit Edit</button>
+                  </form>
+                  
+                  <% } else { %>
+                  <form action="/update-about" method="POST">
+                    <textarea type="text" name="about" placeholder="Write about yourself" class="about-me-input"></textarea>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                <% }%>
+              </div>
+              <!-- this will be the image section -->
+              <!-- <div>
+                <img src="" alt="image of ">
+                <button class="col-3 btn btn-primary">edit image</button>
+              </div> -->
+            </div>
+            
+          </section>
+          <section class="volunteer-schedule">
+            <h3>Current Volunteer Schedule</h3>
+          </section>
+          <section class="volunteer-openings">
+            <h3>Volunteer Openings</h3>
+          </section>
+      
     </div>
   </div>
 </div>
-<script src="/js/chat.js"></script>
+
+
+
 <%- include('partials/footer') -%>

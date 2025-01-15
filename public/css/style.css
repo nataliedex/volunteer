@@ -5,3 +5,21 @@
     align-items: center;
 }
 
+.about-me-input {
+    width: 70vh;
+    height: 100px;
+    resize: none; 
+    overflow-y: auto; 
+    background-color: white;
+    padding: 15px 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    font-family: inherit; 
+    font-size: 1rem; 
+    line-height: 1.5; 
+    color: #333; 
+    box-sizing: border-box; 
+}
+
+
+

@@ -8,9 +8,7 @@ module.exports = {
   getFaqs: (req, res) => {
     res.render("about.ejs", { section: "faqs"});
   },
-  getPresignup: (req, res) => {
-    res.render("presignup.ejs");
-  },
+
 };
 
 

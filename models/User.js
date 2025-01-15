@@ -3,9 +3,12 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
   userType: { type: String },
-  userName: { type: String, unique: true },
+  firstName: { type: String},
+  lastName: { type: String },
   email: { type: String, unique: true },
-  password: String,
+  password: { type:String },
+  about: { type: String },
+  image: { type: String },
 });
 
 // Password hash middleware.
@@ -34,3 +37,5 @@ UserSchema.methods.comparePassword = function comparePassword(
 };
 
 module.exports = mongoose.model("User", UserSchema);
+
+

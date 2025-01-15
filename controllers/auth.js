@@ -4,7 +4,7 @@ const User = require("../models/User");
 
 exports.getLogin = (req, res) => {
   if (req.user) {
-    console.log(req.user.userType);
+    console.log(req.user);
     if(req.user.userType === "Volunteer"){
       return res.redirect("/profile");
     } else {
@@ -101,9 +101,12 @@ exports.postSignup = async (req, res, next) => {
 
   const user = new User({
     userType: req.body.userType,
-    userName: req.body.userName,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     email: req.body.email,
     password: req.body.password,
+    about: req.body.about,
+    image: req.body.image,
   });
 
   console.log("signup request received");
@@ -111,7 +114,7 @@ exports.postSignup = async (req, res, next) => {
 
   try {
     const existingUser = await User.findOne({
-      $or: [{ email: req.body.email }, { userName: req.body.userName }]
+      $or: [{ email: req.body.email },]
     });
   
     if (existingUser) {
@@ -138,3 +141,20 @@ exports.postSignup = async (req, res, next) => {
     return next(err);
   }
 };
+
+exports.postUpdateAbout = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { about } = req.body;
+  
+    await User.findByIdAndUpdate(userId, { about: about.trim()});
+    res.redirect("/profile");
+  } catch (err) {
+    console.error("Error updating the About Me section: ", err);
+    res.status(500).send("Server Error");
+  }
+};
+
+
+
+
