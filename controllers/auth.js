@@ -104,6 +104,7 @@ exports.postSignup = async (req, res, next) => {
     userType: req.body.userType,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
+    organization: req.body.organization,
     email: req.body.email,
     password: req.body.password,
     about: req.body.about,
@@ -120,7 +121,7 @@ exports.postSignup = async (req, res, next) => {
   
     if (existingUser) {
       req.flash("errors", {
-        msg: "Account with that email address or username already exists.",
+        msg: "Account with that email address already exists.",
       });
       return res.redirect("../signup");
     }

@@ -16,15 +16,16 @@
                     <div class="mb-3">
                       <label for="userType" class="form-label">Type of Sign Up</label>
                       <div>
-                        <input type="radio" id="volunteer" name="userType" value="Volunteer">
+                        <input type="radio" id="volunteer-radio" name="userType" value="Volunteer">
                         <label for="volunteer">Individual - looking for volunteer opportunities</label>
                       </div>
                       <div>
-                        <input type="radio" id="organization" name="userType" value="Organization">
+                        <input type="radio" id="organization-radio" name="userType" value="Organization">
                         <label for="organization">Organization - looking for volunteers</label>
                       </div>
                     </div>
-                    <div class="mb-3">
+                    <section id="individual-section" style="display: none;">
+                      <div class="mb-3">
                         <label for="firstName" class="form-label">First Name</label>
                         <input type="text" class="form-control" id="firstName" name="firstName">
                       </div>
@@ -32,6 +33,14 @@
                       <label for="lastName" class="form-label">Last Name</label>
                       <input type="text" class="form-control" id="lastName" name="lastName">
                     </div>
+                    </section>
+                    <section id="organization-section" style="display: none;">
+                      <div class="mb-3">
+                        <label for="organization" class="form-label">Organization</label>
+                        <input type="text" class="form-control" id="organization" name="organization">
+                      </div>
+                    </section>
+                    
                     <div class="mb-3">
                       <label for="exampleInputEmail1" class="form-label">Email address</label>
                       <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">

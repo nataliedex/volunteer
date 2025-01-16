@@ -4,7 +4,7 @@ export function toggleEdit(sectionId){
   const currentElement = section.querySelector(".current-content");
   const editButton = section.querySelector(".edit-button");
   const editForm = section.querySelector(".edit-form");
-  console.log(section, currentElement, editButton, editForm);
+
   if(currentElement && editButton) {
     currentElement.style.display = "none";
     editButton.style.display = "none";
