@@ -1,7 +1,10 @@
 module.exports = {
   ensureAuth: function (req, res, next) {
     if (req.isAuthenticated()) {
-      return next();
+      if(req.user.userType === "Volunteer") {
+        return next();
+      }
+      res.redirect("/organization");
     } else {
       res.redirect("/");
     }

@@ -1,18 +1,10 @@
 const passport = require("passport");
 const validator = require("validator");
 const User = require("../models/User");
+const Organization = require("../models/Organization");
 
 
 exports.getLogin = (req, res) => {
-  if (req.user) {
-    console.log(req.user);
-    if(req.user.userType === "Volunteer"){
-      return res.redirect("/profile");
-    } else {
-      return res.redirect("/organizations");
-    }
-    
-  }
   res.render("login", {
     title: "Login",
   });
@@ -46,7 +38,14 @@ exports.postLogin = (req, res, next) => {
         return next(err);
       }
       req.flash("success", { msg: "Success! You are logged in." });
-      res.redirect(req.session.returnTo || "/profile");
+
+    
+      console.log("Logged-in user:", req.user);
+      console.log("Return-to path:", req.session.returnTo);
+      const redirectPath = (req.user.userType === "Volunteer" ? "/profile" : "/organization");
+      res.redirect(req.session.returnTo || redirectPath);
+    
+      
     });
   })(req, res, next);
 };
@@ -73,8 +72,10 @@ exports.logout = (req, res) => {
 };
 
 exports.getSignup = (req, res) => {
+  
   if (req.user) {
-    return res.redirect("/profile");
+    const redirectPath = req.user.userType === "Volunteer" ? "/profile" : "/organization";
+    return res.redirect(redirectPath);
   }
   res.render("signup", {
     title: "Create Account",
@@ -82,17 +83,9 @@ exports.getSignup = (req, res) => {
 };
 
 exports.postSignup = async (req, res, next) => {
-  const validationErrors = [];
-  if (!validator.isEmail(req.body.email))
-    validationErrors.push({ msg: "Please enter a valid email address." });
-  if (!validator.isLength(req.body.password, { min: 8 }))
-    validationErrors.push({
-      msg: "Password must be at least 8 characters long",
-    });
-  if (req.body.password !== req.body.confirmPassword)
-    validationErrors.push({ msg: "Passwords do not match" });
+  const validationErrors = validateSignupInputs(req.body);
 
-  if (validationErrors.length) {
+  if(validationErrors.length){
     req.flash("errors", validationErrors);
     return res.redirect("../signup");
   }
@@ -100,46 +93,63 @@ exports.postSignup = async (req, res, next) => {
     gmail_remove_dots: false,
   });
 
-  const user = new User({
+  const isVolunteer = req.body.userType === "Volunteer";
+  const userData = isVolunteer ? {
     userType: req.body.userType,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
+    email: req.body.email,
+    password: req.body.password,
+    about: req.body.about,
+    image: req.body.image,
+  }
+  : {
+    userType: req.body.userType,
     organization: req.body.organization,
     email: req.body.email,
     password: req.body.password,
     about: req.body.about,
     image: req.body.image,
-  });
+  };
 
-  console.log("signup request received");
-  console.log(`request body: ${req.body}`);
+  const Model = isVolunteer ? User : Organization;
+  const redirectPath = isVolunteer ? "/profile" : "/organization";
 
-  try {
-    const existingUser = await User.findOne({
-      $or: [{ email: req.body.email },]
-    });
-  
-    if (existingUser) {
-      req.flash("errors", {
-        msg: "Account with that email address already exists.",
+    try {
+      const existingUser = await Model.findOne({ email: req.body.email });
+      
+      if (existingUser) {
+        req.flash("errors", {
+          msg: "Account with that email address already exists.",
+        });
+        return res.redirect("../signup");
+      }
+      const newUser = new Model(userData);
+      await newUser.save();
+      
+      return new Promise((resolve, reject) => {
+        req.logIn(newUser, (err) => {
+          if (err) {
+            console.log("login error:", err);
+            return reject(err);
+          }
+          res.redirect(redirectPath) ;
+          resolve();
+        });
       });
-      return res.redirect("../signup");
+    } catch (err) {
+      console.error("signup error:", err);
+      return next(err);
     }
-  
-    await user.save();
-    
-    return new Promise((resolve, reject) => {
-      req.logIn(user, (err) => {
-        if (err) {
-          console.log("login error:", err);
-          return reject(err);
-        }
-        res.redirect("/profile") ;
-        resolve();
-      });
-    });
-  } catch (err) {
-    console.error("signup error:", err);
-    return next(err);
-  }
 };
+
+  function validateSignupInputs(body) {
+    const errors = [];
+    if (!validator.isEmail(body.email))
+      errors.push({ msg: "Please enter a valid email address." });
+    if (!validator.isLength(body.password, { min: 8 }))
+      errors.push({ msg: "Password must be at least 8 characters long" });
+    if (body.password !== body.confirmPassword)
+      errors.push({ msg: "Passwords do not match." });
+    return errors;
+  }

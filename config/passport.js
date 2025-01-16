@@ -1,12 +1,21 @@
 const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
 const User = require("../models/User");
+const Organization = require("../models/Organization");
 
 module.exports = function (passport) {
   passport.use(
     new LocalStrategy({ usernameField: "email" }, async (email, password, done) => {
       try {
-        const user = await User.findOne({ email: email.toLowerCase() });
+        let user;
+
+        if(!user){
+          user = await User.findOne({ email: email.toLowerCase() });
+        }
+       
+        if(!user){
+          user = await Organization.findOne({ email: email.toLowerCase() });
+        }
 
         if (!user) {
           return done(null, false, { msg: `Email ${email} not found.` });
@@ -37,12 +46,21 @@ module.exports = function (passport) {
   );
 
   passport.serializeUser((user, done) => {
-    done(null, user.id);
+    const type = user.schema?.path("organization") ? "organization" : "user" ;
+    done(null, { id: user.id, type});
   });
 
-  passport.deserializeUser(async (id, done) => {
+
+  passport.deserializeUser(async (obj, done) => {
     try {
-      const user = await User.findById(id);
+      const user =
+        obj.type === "user"
+          ? await User.findById(obj.id)
+          : await Organization.findById(obj.id);
+
+      if (!user) {
+        return done(new Error(`No user found with ID ${obj.id} in ${obj.type}`));
+      }
       done(null, user);
     } catch (err) {
       done(err);

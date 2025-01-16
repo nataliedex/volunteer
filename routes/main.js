@@ -9,7 +9,7 @@ const upload = require("../middleware/multer");
 
 //Main Routes - simplified for now
 router.get("/profile", ensureAuth, postsController.getProfile);
-router.get("/organizations", ensureAuth, postsController.getProfile);
+router.get("/organization", ensureAuth, postsController.getOrganization);
 
 router.get("/login", authController.getLogin);
 router.post("/login", authController.postLogin);
