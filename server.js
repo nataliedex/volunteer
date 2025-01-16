@@ -11,6 +11,7 @@ const validator = require("validator");
 const connectDB = require("./config/database");
 const mainRoutes = require("./routes/main");
 const postRoutes = require("./routes/posts");
+const debug = require("debug")("app:session");
 
 
 //Use .env file in config folder
@@ -22,6 +23,7 @@ require("./config/passport")(passport);
 //Connect To Database
 connectDB();
 // Setup Sessions - stored in MongoDB
+
 app.use(
   session({
     secret: "keyboard cat",
@@ -32,7 +34,10 @@ app.use(
       }),
   })
 );
-
+app.use((req, res, next) => {
+  debug("Session:", req.session);
+  next();
+});
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());

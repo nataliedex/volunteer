@@ -33,20 +33,27 @@ exports.postLogin = (req, res, next) => {
       req.flash("errors", info);
       return res.redirect("/login");
     }
-    req.logIn(user, (err) => {
-      if (err) {
-        return next(err);
-      }
-      req.flash("success", { msg: "Success! You are logged in." });
 
-    
+    return new Promise((resolve, reject) => {
+      req.logIn(user, (err) => {
+        if (err) {
+          console.error("Login error:", err);
+          return reject(err);
+        }
+        req.flash("success", { msg: "Success! You are logged in." });
+
+      // Log session and user info for debugging
       console.log("Logged-in user:", req.user);
-      console.log("Return-to path:", req.session.returnTo);
-      const redirectPath = (req.user.userType === "Volunteer" ? "/profile" : "/organization");
-      res.redirect(req.session.returnTo || redirectPath);
-    
-      
+      console.log("Session details:", req.session);
+
+      const redirectPath = req.user.userType === "Organization" ? "/organization" : "/profile";
+      const finalRedirect = req.session.returnTo || redirectPath;
+
+      req.session.returnTo = null;
+      res.redirect(finalRedirect);
+      resolve();
     });
+  }).catch(next);
   })(req, res, next);
 };
 

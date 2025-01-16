@@ -7,7 +7,6 @@ module.exports = {
 
   getProfile: async (req, res) => {
     try {
-      console.log("User data:", req.user);
       res.render("profile.ejs", { user: req.user });
     } catch (err) {
       console.log(err);
@@ -15,8 +14,8 @@ module.exports = {
   },
   getOrganization: async (req, res) => {
     try {
-      console.log("User data:", req.user);
-      res.render("organization.ejs", { user: req.user });
+      console.log("User in getOrganization:", req.user);
+      res.render("organization.ejs");
     } catch (err) {
       console.log(err);
     }

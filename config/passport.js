@@ -7,11 +7,7 @@ module.exports = function (passport) {
   passport.use(
     new LocalStrategy({ usernameField: "email" }, async (email, password, done) => {
       try {
-        let user;
-
-        if(!user){
-          user = await User.findOne({ email: email.toLowerCase() });
-        }
+        let user = await User.findOne({ email: email.toLowerCase() });
        
         if(!user){
           user = await Organization.findOne({ email: email.toLowerCase() });
