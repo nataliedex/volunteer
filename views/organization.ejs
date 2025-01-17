@@ -60,11 +60,32 @@
             </div>
           </section>
 
-          <section class="volunteer-schedule">
-            <h3>Current Volunteer Schedule</h3>
+          <section class="current-listings">
+            <h3>Current Listings</h3>
           </section>
-          <section class="volunteer-openings">
-            <h3>Volunteer Openings</h3>
+          <section class="create-listing">
+            <div class="mt-5">
+              <h2>Create a New Listing</h2>
+              <form action="/listing/createListing" enctype="multipart/form-data" method="POST">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="title">
+                </div>
+                <div class="mb-3">
+                  <label for="description" class="form-label">Description</label>
+                  <textarea class="form-control" id="description" name="description"></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="date" class="form-label">Date</label>
+                  <input type="date" class="form-control" id="date" name="date">
+                </div>
+                <div class="mb-3">
+                  <label for="location" class="form-label">Location</label>
+                  <input type="text" class="form-control" id="location" name="location">
+                </div>
+                <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
+              </form>
+            </div> 
           </section>
     </div>
   </div>

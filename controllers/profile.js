@@ -2,6 +2,14 @@ const User = require("../models/User");
 const fs = require("fs");
 const cloudinary = require("../middleware/cloudinary");
 
+exports.getProfile = async (req, res) => {
+  try {
+    res.render("profile.ejs", { user: req.user });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 
 exports.postUpdateAbout = async (req, res) => {
     try {

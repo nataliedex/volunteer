@@ -1,29 +1,29 @@
 const mongoose = require("mongoose");
 
-const PostSchema = new mongoose.Schema({
+const ListingSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
   },
-  image: {
+  description: {
     type: String,
     require: true,
   },
-  cloudinaryId: {
+  date: {
     type: String,
-    require: true,
+    required: true,
   },
-  caption: {
-    type: String,
+  location: {
+    type: Number,
     required: true,
   },
   likes: {
     type: Number,
     required: true,
   },
-  user: {
+  organization: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Organization",
   },
   createdAt: {
     type: Date,
@@ -31,4 +31,4 @@ const PostSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Post", PostSchema);
+module.exports = mongoose.model("Listing", ListingSchema);

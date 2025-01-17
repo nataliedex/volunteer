@@ -10,7 +10,7 @@ const logger = require("morgan");
 const validator = require("validator");
 const connectDB = require("./config/database");
 const mainRoutes = require("./routes/main");
-const postRoutes = require("./routes/posts");
+const listingRoutes = require("./routes/listing");
 const debug = require("debug")("app:session");
 
 
@@ -67,7 +67,7 @@ app.use(flash());
 
 //Setup Routes For Which The Server Is Listening
 app.use("/", mainRoutes);
-app.use("/post", postRoutes);
+app.use("/listing", listingRoutes);
 
 //Server Running
 app.listen(process.env.PORT || 8000, () => {

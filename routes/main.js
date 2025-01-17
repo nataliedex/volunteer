@@ -2,14 +2,14 @@ const express = require("express");
 const router = express.Router();
 const authController = require("../controllers/auth");
 const profileController = require("../controllers/profile");
+const organizationController = require("../controllers/organization");
 const homeController = require("../controllers/home");
-const postsController = require("../controllers/posts");
 const { ensureAuth, ensureGuest } = require("../middleware/auth");
 const upload = require("../middleware/multer");
 
 //Main Routes - simplified for now
-router.get("/profile", ensureAuth, postsController.getProfile);
-router.get("/organization", ensureAuth, postsController.getOrganization);
+router.get("/profile", ensureAuth, profileController.getProfile);
+router.get("/organization", ensureAuth, organizationController.getOrganization);
 
 router.get("/login", authController.getLogin);
 router.post("/login", authController.postLogin);
