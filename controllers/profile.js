@@ -1,10 +1,12 @@
 const User = require("../models/User");
 const fs = require("fs");
 const cloudinary = require("../middleware/cloudinary");
+const Listing = require("../models/Listing");
 
 exports.getProfile = async (req, res) => {
   try {
-    res.render("profile.ejs", { user: req.user });
+    const listing = await Listing.find( { organization: req.user.organizationId });
+    res.render("profile.ejs", { user: req.user, listing: listing });
   } catch (err) {
     console.log(err);
   }

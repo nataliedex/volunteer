@@ -29,6 +29,13 @@ const ListingSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  user: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("Listing", ListingSchema);

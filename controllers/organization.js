@@ -3,16 +3,6 @@ const fs = require("fs");
 const cloudinary = require("../middleware/cloudinary");
 const Listing = require("../models/Listing");
 
-// exports.getOrganization = async (req, res) => {
-//     try {
-//       const listing = await Listing.find({user: req.user.id});
-//       res.render("organization.ejs", { user: req.user, listing:listing });
-//       console.log(req.user);
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   };
-
   exports.getOrganization = async (req, res) => {
     try{
       const listing = await Listing.find({ organization: req.user.organizationId });

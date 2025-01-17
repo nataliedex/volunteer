@@ -65,6 +65,24 @@
           </section>
           <section class="volunteer-openings">
             <h3>Volunteer Openings</h3>
+            <div class="container">
+              <div class="row justify-content-center mt-5">
+                <ul class="row list-unstyled">
+                  <% for(let i=0; i<listing.length; i++) {%>
+                    <li class="col-6 justify-content-between mt-5">
+                      <a href="/listing/<%= listing[i]._id%>">
+                        <h3><%= listing[i].title%></h3>
+                      </a>
+                      <img class="img-fluid" src="<%= listing[i].image%>">
+                      <p><%= listing[i].user%></p>
+                      <p><%= listing[i].description%></p>
+                      <p><%= listing[i].location%></p>
+                      <p><%= listing[i].date%></p>
+                    </li>
+                  <% } %>
+                  </ul>
+              </div>
+            </div> 
           </section>
       
     </div>

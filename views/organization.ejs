@@ -62,21 +62,22 @@
 
           <section class="current-listings">
             <h3>Current Listings</h3>
-            <% if(!listing) {%>
-              <p>no listings!</p>
-              <% } %>
             <div class="col-6">
               <ul class="row list-unstyled">
               <% for(let i=0; i<listing.length; i++) {%>
+                <% if(listing[i].user === user.organization) { %>
                 <li class="col-6 justify-content-between mt-5">
                   <a href="/listing/<%= listing[i]._id%>">
                     <h3><%= listing[i].title%></h3>
+                    
                   </a>
+                  <img class="img-fluid" src="<%= listing[i].image%>">
+                  <p><%= listing[i].user%></p>
                   <p><%= listing[i].description%></p>
                   <p><%= listing[i].location%></p>
                   <p><%= listing[i].date%></p>
-                  <p><%= listing[i].organizationId%></p>
                 </li>
+                <% } %>
               <% } %>
               </ul>
               <div class="row justify-content-center mt-5">
