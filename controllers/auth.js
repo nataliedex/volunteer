@@ -4,7 +4,17 @@ const User = require("../models/User");
 const Organization = require("../models/Organization");
 
 
+
 exports.getLogin = (req, res) => {
+  if(req.user) {
+    if(req.user.userType === "Volunteer"){
+      return res.redirect("/profile");
+    } else if(req.user.userType === "Organization") {
+      return res.redirect("/organization");
+    } else {
+      return res.redirect("/login");
+    }
+  }
   res.render("login", {
     title: "Login",
   });
@@ -121,6 +131,8 @@ exports.postSignup = async (req, res, next) => {
 
   const Model = isVolunteer ? User : Organization;
   const redirectPath = isVolunteer ? "/profile" : "/organization";
+  console.log("Model:", Model);
+  console.log("redirectPath: ", redirectPath);
 
     try {
       const existingUser = await Model.findOne({ email: req.body.email });

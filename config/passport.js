@@ -2,6 +2,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
 const User = require("../models/User");
 const Organization = require("../models/Organization");
+const { logout } = require("../controllers/auth");
 
 module.exports = function (passport) {
   passport.use(
@@ -43,6 +44,7 @@ module.exports = function (passport) {
 
   passport.serializeUser((user, done) => {
     const type = user.schema?.path("organization") ? "organization" : "user" ;
+    console.log("type is: ", type);
     done(null, { id: user.id, type});
   });
 

@@ -1,75 +1,75 @@
+<%- include('partials/header') -%>
 <div class="container">
-    <div class="row mt-5">
-        <div class="col-6">
-            <div>
+  <div class="row mt-5">
+      <div class="col-6">
+          <div>
                 <h3>This is the ORGANIZATION page</h3>
-                <p><strong>Welcome</strong> <%= user.firstName %></p>
-                <p><strong>Email</strong>: <%= user.email %></p>
-                <a href="/logout" class="col-3 btn btn-primary">Logout</a>
+              <p><strong>Welcome</strong> <%= user.organization %></p>
+              <p><strong>Email</strong>: <%= user.email %></p>
+              <a href="/logout" class="col-3 btn btn-primary">Logout</a>
+          </div>
+          <!-- about me section -->
+          <section id="about-me-section" class="section">
+            <div>
+              <% if(user.about){ %>
+                <h3>About Section</h3>
+                <p class="current-content"><%= user.about %></p>
+                <button type="button" class="col-3 btn btn-primary edit-button">edit about me</button>
+                
+                <!-- toggle edit form -->
+                <form class="edit-form" id="edit-form" action="/update-about" method="POST" style="display: none;">
+                  <textarea type="text" name="about" class="about-me-input" placeholder="<%= user.about %>"value="<%= user.about %>"></textarea>
+                  <button type="submit" class="btn btn-primary">submit</button>
+                  <button type="button" class="btn btn-secondary exit-edit-button">exit edit</button>
+                </form>
+                
+                <% } else { %>
+                <form class="edit-form" id="edit-form" action="/update-about" method="POST">
+                  <textarea type="text" name="about" placeholder="Write about your organization" class="about-me-input"></textarea>
+                  <button type="submit" class="btn btn-primary">submit</button>
+                </form>
+              <% }%>
             </div>
-            <!-- about me section -->
-            <section id="about-me-section" class="section">
-              <div>
-                <% if(user.about){ %>
-                  <h3>About Me Section</h3>
-                  <p class="current-content"><%= user.about %></p>
-                  <button type="button" class="col-3 btn btn-primary edit-button">edit about me</button>
-                  
-                  <!-- toggle edit form -->
-                  <form class="edit-form" id="edit-form" action="/update-about" method="POST" style="display: none;">
-                    <textarea type="text" name="about" class="about-me-input" placeholder="<%= user.about %>"value="<%= user.about %>"></textarea>
+          </section>
+          <!-- Image section -->
+          <section id="image-section"class="section">
+            <div>
+              <% if(user.image) { %>
+                <h3>My Image</h3>
+                <img class="current-content" src="<%= user.image %>" alt="image of <%= user.organization %>" style="max-width: 200px;">
+                <button class="col-3 btn btn-primary edit-button">edit image</button>
+                <!-- toggle to edit photo -->
+                <form class="edit-form" id="edit-form" action="/update-image" method="POST" enctype="multipart/form-data" style="display: none;">
+                  <div class="mb-3">
+                    <label for="imgUpload" class="form-label">Upload Image</label>
+                    <input type="file" class="form-control" id="imageUpload" name="file" required>
                     <button type="submit" class="btn btn-primary">submit</button>
                     <button type="button" class="btn btn-secondary exit-edit-button">exit edit</button>
-                  </form>
-                  
-                  <% } else { %>
-                  <form class="edit-form" id="edit-form" action="/update-about" method="POST">
-                    <textarea type="text" name="about" placeholder="Write about yourself" class="about-me-input"></textarea>
+                  </div>
+                </form>
+              <% } else { %>
+                <form class="edit-form" action="/update-image" method="POST" enctype="multipart/form-data">
+                  <div class="mb-3">
+                    <label for="imgUpload" class="form-label">Upload Image</label>
+                    <input type="file" class="form-control" id="imageUpload" name="file" required>
                     <button type="submit" class="btn btn-primary">submit</button>
-                  </form>
-                <% }%>
-              </div>
-            </section>
-            <!-- Image section -->
-            <section id="image-section"class="section">
-              <div>
-                <% if(user.image) { %>
-                  <h3>My Image</h3>
-                  <img class="current-content" src="<%= user.image %>" alt="image of <%= user.firstName %>" style="max-width: 200px;">
-                  <button class="col-3 btn btn-primary edit-button">edit image</button>
-                  <!-- toggle to edit photo -->
-                  <form class="edit-form" id="edit-form" action="/update-image" method="POST" enctype="multipart/form-data" style="display: none;">
-                    <div class="mb-3">
-                      <label for="imgUpload" class="form-label">Upload Image</label>
-                      <input type="file" class="form-control" id="imageUpload" name="file" required>
-                      <button type="submit" class="btn btn-primary">submit</button>
-                      <button type="button" class="btn btn-secondary exit-edit-button">exit edit</button>
-                    </div>
-                  </form>
-                <% } else { %>
-                  <form class="edit-form" action="/update-image" method="POST" enctype="multipart/form-data">
-                    <div class="mb-3">
-                      <label for="imgUpload" class="form-label">Upload Image</label>
-                      <input type="file" class="form-control" id="imageUpload" name="file" required>
-                      <button type="submit" class="btn btn-primary">submit</button>
-                      <button type="button" class="btn btn-secondary exit-edit-button">exit edit</button>
-                    </div>
-                  </form>
-                <% } %>
-              </div>
-            </section>
-  
-            <section class="volunteer-schedule">
-              <h3>Current Volunteer Schedule</h3>
-            </section>
-            <section class="volunteer-openings">
-              <h3>Volunteer Openings</h3>
-            </section>
-        
-      </div>
+                    <button type="button" class="btn btn-secondary exit-edit-button">exit edit</button>
+                  </div>
+                </form>
+              <% } %>
+            </div>
+          </section>
+
+          <section class="volunteer-schedule">
+            <h3>Current Volunteer Schedule</h3>
+          </section>
+          <section class="volunteer-openings">
+            <h3>Volunteer Openings</h3>
+          </section>
     </div>
   </div>
-  
-  
-  
-  <%- include('partials/footer') -%>
+</div>
+
+
+
+<%- include('partials/footer') -%>
