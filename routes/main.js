@@ -13,8 +13,8 @@ router.post("/update-about", profileController.postUpdateAbout);
 router.post("/update-image", upload.single("file"), profileController.postUpdateImage);
 
 router.get("/organization", ensureAuth, organizationController.getOrganization);
-router.post("/update-about", organizationController.postUpdateAbout);
-router.post("/update-image", upload.single("file"), organizationController.postUpdateImage);
+router.post("/update-about-org", organizationController.postUpdateAbout);
+router.post("/update-image-org", upload.single("file"), organizationController.postUpdateImage);
 
 router.get("/login", authController.getLogin);
 router.post("/login", authController.postLogin);

@@ -1,13 +1,25 @@
 const Organization = require("../models/Organization");
 const fs = require("fs");
 const cloudinary = require("../middleware/cloudinary");
+const Listing = require("../models/Listing");
 
-exports.getOrganization = async (req, res) => {
-    try {
-      res.render("organization.ejs", { user: req.user });
-      console.log(req.user);
+// exports.getOrganization = async (req, res) => {
+//     try {
+//       const listing = await Listing.find({user: req.user.id});
+//       res.render("organization.ejs", { user: req.user, listing:listing });
+//       console.log(req.user);
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   };
+
+  exports.getOrganization = async (req, res) => {
+    try{
+      const listing = await Listing.find({ organization: req.user.organizationId });
+      res.render("organization.ejs", { user: req.user, listing: listing });
     } catch (err) {
-      console.log(err);
+      console.error("Error fetching organization data:", err);
+      res.status(500).send("An error occured while loading the organization page");
     }
   };
 

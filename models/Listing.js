@@ -14,7 +14,7 @@ const ListingSchema = new mongoose.Schema({
     required: true,
   },
   location: {
-    type: Number,
+    type: String,
     required: true,
   },
   likes: {

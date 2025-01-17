@@ -17,14 +17,14 @@
                 <button type="button" class="col-3 btn btn-primary edit-button">edit about me</button>
                 
                 <!-- toggle edit form -->
-                <form class="edit-form" id="edit-form" action="/update-about" method="POST" style="display: none;">
+                <form class="edit-form" id="edit-form" action="/update-about-org" method="POST" style="display: none;">
                   <textarea type="text" name="about" class="about-me-input" placeholder="<%= user.about %>"value="<%= user.about %>"></textarea>
                   <button type="submit" class="btn btn-primary">submit</button>
                   <button type="button" class="btn btn-secondary exit-edit-button">exit edit</button>
                 </form>
                 
                 <% } else { %>
-                <form class="edit-form" id="edit-form" action="/update-about" method="POST">
+                <form class="edit-form" id="edit-form" action="/update-about-org" method="POST">
                   <textarea type="text" name="about" placeholder="Write about your organization" class="about-me-input"></textarea>
                   <button type="submit" class="btn btn-primary">submit</button>
                 </form>
@@ -39,7 +39,7 @@
                 <img class="current-content" src="<%= user.image %>" alt="image of <%= user.organization %>" style="max-width: 200px;">
                 <button class="col-3 btn btn-primary edit-button">edit image</button>
                 <!-- toggle to edit photo -->
-                <form class="edit-form" id="edit-form" action="/update-image" method="POST" enctype="multipart/form-data" style="display: none;">
+                <form class="edit-form" id="edit-form" action="/update-image-org" method="POST" enctype="multipart/form-data" style="display: none;">
                   <div class="mb-3">
                     <label for="imgUpload" class="form-label">Upload Image</label>
                     <input type="file" class="form-control" id="imageUpload" name="file" required>
@@ -48,7 +48,7 @@
                   </div>
                 </form>
               <% } else { %>
-                <form class="edit-form" action="/update-image" method="POST" enctype="multipart/form-data">
+                <form class="edit-form" action="/update-image-org" method="POST" enctype="multipart/form-data">
                   <div class="mb-3">
                     <label for="imgUpload" class="form-label">Upload Image</label>
                     <input type="file" class="form-control" id="imageUpload" name="file" required>
@@ -62,6 +62,27 @@
 
           <section class="current-listings">
             <h3>Current Listings</h3>
+            <% if(!listing) {%>
+              <p>no listings!</p>
+              <% } %>
+            <div class="col-6">
+              <ul class="row list-unstyled">
+              <% for(let i=0; i<listing.length; i++) {%>
+                <li class="col-6 justify-content-between mt-5">
+                  <a href="/listing/<%= listing[i]._id%>">
+                    <h3><%= listing[i].title%></h3>
+                  </a>
+                  <p><%= listing[i].description%></p>
+                  <p><%= listing[i].location%></p>
+                  <p><%= listing[i].date%></p>
+                  <p><%= listing[i].organizationId%></p>
+                </li>
+              <% } %>
+              </ul>
+              <div class="row justify-content-center mt-5">
+                <a class="btn btn-primary" href="/feed">Return to Feed</a>
+              </div>  
+            </div>
           </section>
           <section class="create-listing">
             <div class="mt-5">

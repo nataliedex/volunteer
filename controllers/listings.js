@@ -6,7 +6,9 @@ module.exports = {
 
   getListing: async (req, res) => {
     try {
-      res.render("listing.ejs");
+      const listing = await Listing.find({user: req.user.id});
+      console.log("Listing data:", listing);
+      res.render("organization.ejs", { user: req.user, listing:listing });
     } catch (err) {
       console.log(err);
     }
@@ -20,10 +22,12 @@ module.exports = {
         date: req.body.date,
         location: req.body.location,
         likes: 0,
-        user: req.user.id,
+        organization: req.user.organizationId,
       });
       console.log("Listing has been added!");
       res.redirect("/organization");
+      // const updatedListings = await Listing.find( { organization: req.user.organizationId });
+      // res.render("organization.ejs", { user:req.user, listing: updatedListings });
     } catch (err) {
       console.log(err);
     }
