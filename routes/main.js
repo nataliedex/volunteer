@@ -9,7 +9,12 @@ const upload = require("../middleware/multer");
 
 //Main Routes - simplified for now
 router.get("/profile", ensureAuth, profileController.getProfile);
+router.post("/update-about", profileController.postUpdateAbout);
+router.post("/update-image", upload.single("file"), profileController.postUpdateImage);
+
 router.get("/organization", ensureAuth, organizationController.getOrganization);
+router.post("/update-about", organizationController.postUpdateAbout);
+router.post("/update-image", upload.single("file"), organizationController.postUpdateImage);
 
 router.get("/login", authController.getLogin);
 router.post("/login", authController.postLogin);
@@ -21,7 +26,6 @@ router.get("/", homeController.getIndex);
 router.get("/faqs", homeController.getFaqs);
 router.get("/about", homeController.getAbout);
 
-router.post("/update-about", profileController.postUpdateAbout);
-router.post("/update-image", upload.single("file"), profileController.postUpdateImage);
+
 
 module.exports = router;
