@@ -21,7 +21,7 @@ module.exports = {
         description: req.body.description,
         date: req.body.date,
         location: req.body.location,
-        likes: 0,
+        volunteers: {},
         organization: req.user.organizationId,
         user: req.user.organization,
         image: req.user.image,

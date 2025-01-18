@@ -17,10 +17,19 @@ const ListingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  likes: {
-    type: Number,
-    required: true,
+  volunteers: {
+    name: {
+      type: String,
+    },
+    email: {
+      type: String,
+      unique: true,
+    },
+    number: {
+      type: Number,
+    },
   },
+
   organization: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Organization",
