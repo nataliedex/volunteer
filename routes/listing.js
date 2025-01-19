@@ -7,7 +7,7 @@ const { ensureAuth, ensureGuest } = require("../middleware/auth");
 //Listing Routes - simplified for now
 router.get("/:id", ensureAuth, listingsController.getListing);
 router.post("/createListing", upload.single("file"), listingsController.createListing);
-router.put("/likeListing/:id", listingsController.likeListing);
+router.put("/SignUpListing/:id", listingsController.SignUpListing);
 router.delete("/deleteListing/:id", listingsController.deleteListing);
 
 

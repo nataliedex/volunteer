@@ -33,7 +33,7 @@ module.exports = {
     }
   },
 
-  likeListing: async (req, res) => {
+  SignUpListing: async (req, res) => {
     try {
       res.render("listing.ejs");
     } catch (err) {
@@ -43,9 +43,14 @@ module.exports = {
 
   deleteListing: async (req, res) => {
     try {
-      res.render("listing.ejs");
+      // Find listing by id
+      let listing = await Listing.findById({ _id: req.params.id });
+      // Delete post from db
+      await Listing.remove({ _id: req.params.id });
+      console.log("Deleted Listing");
+      res.redirect("/organization");
     } catch (err) {
-      console.log(err);
+      res.redirect("/organization");
     }
   },
 
