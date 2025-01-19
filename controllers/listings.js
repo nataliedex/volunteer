@@ -1,4 +1,5 @@
 const Listing = require("../models/Listing");
+const Organization = require("../models/Organization");
 const fs = require("fs");
 const cloudinary = require("../middleware/cloudinary");
 
@@ -6,9 +7,12 @@ module.exports = {
 
   getListing: async (req, res) => {
     try {
+
       const listing = await Listing.findById(req.params.id);
+      const organization = await Organization.findOne({ organization: listing.user });
       console.log("listing:", listing);
-      res.render("listing.ejs", { listing : listing, user: req.user });
+      console.log("organization:", organization)
+      res.render("listing.ejs", { listing : listing, user: req.user, organization: organization });
     } catch (err) {
       console.log(err);
     }
