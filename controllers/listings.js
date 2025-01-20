@@ -1,7 +1,5 @@
 const Listing = require("../models/Listing");
 const Organization = require("../models/Organization");
-const fs = require("fs");
-const cloudinary = require("../middleware/cloudinary");
 
 module.exports = {
 
@@ -12,7 +10,11 @@ module.exports = {
       const organization = await Organization.findOne({ organization: listing.user });
       console.log("listing:", listing);
       console.log("organization:", organization)
-      res.render("listing.ejs", { listing : listing, user: req.user, organization: organization });
+      
+      res.render("listing.ejs", { 
+        listing, 
+        user: req.user, 
+        organization});
     } catch (err) {
       console.log(err);
     }
