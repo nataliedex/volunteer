@@ -47,13 +47,12 @@ module.exports = {
 
   deleteListing: async (req, res) => {
     try {
-      // Find listing by id
-      let listing = await Listing.findById({ _id: req.params.id });
       // Delete post from db
-      await Listing.remove({ _id: req.params.id });
+      await Listing.findByIdAndDelete({ _id: req.params.id });
       console.log("Deleted Listing");
       res.redirect("/organization");
     } catch (err) {
+      console.error("listing not deleted", err);
       res.redirect("/organization");
     }
   },
