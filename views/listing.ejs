@@ -5,16 +5,48 @@
         <h2><%= listing.title %></h2>
         <div class="row justify-content-between">
           <h3 class="col-3">Sign-ups </h3>
-          <%if(!user && user.organization !== listing.user){ %>
-          <form 
-            action="<%= listing.id %>/signUpListing" 
-            method="GET" 
-            class="col-3">
-            <button class="btn btn-primary">Sign-Up</button>
-          </form>
-          <% } %>
-          
+          <p>This is where we will see a list of current volunteers</p>
           <%if(user && user.organization === listing.user){ %>
+            <p>This will be what the organization that listed the event will see</p>
+            
+          <div id="listing-information" class="col-3 mt-5">
+            <form action="/listing/updateListing/<%= listing.id %>" enctype="multipart/form-data" method="POST">
+              <button type="submit" class="btn btn-primary" id="listing-edit" style="display: block;">Edit Information</button>
+              <button type="submit" class="btn btn-primary" id="save-edit" style="display: none;">Save</button>
+              <button type="submit" class="btn btn-primary" id="exit-edit" style="display: none;">Exit Edit</button>
+
+              <img class="img-fluid" src="<%= listing.image%>">
+              <p id="listing-user"><%= listing.user %></p>
+              <!-- Description Field -->
+              <p id="listing-description" style="display: block;"><%= listing.description %></p>
+              <textarea 
+                id="description-field"
+                type="text" 
+                name="description" 
+                class="listing-edit-field" 
+                style="display: none;"
+              ><%= listing.description %></textarea>
+              <!-- Location Field -->
+              <p id="listing-location" style="display: block;"><%= listing.location %></p>
+              <input 
+                id="location-field"
+                type="text" 
+                name="location" 
+                class="listing-edit-field" 
+                style="display: none;"
+              ><%= listing.location %></input>
+              <!-- Date Field -->
+              <p id="listing-date" style="display: block;"><%= listing.date %></p>
+              <input 
+                id="date-field"
+                type="date" 
+                name="date" 
+                class="listing-edit-field" 
+                style="display: none;"
+              ><%= listing.date %></input>
+            </form>
+          </div>
+
           <form
             action="/listing/deleteListing/<%= listing.id %>?_method=DELETE"
             method="POST"
@@ -22,39 +54,36 @@
           >
             <button class="btn btn-primary" type="submit">Delete</button>
           </form>
+
+          
+
+          <div class="col-6 mt-5">
+            <a class="btn btn-primary" href="/organization">Back</a>
+          </div>
           <%}%>
+          <%if(!user && user.organization !== listing.user){ %>
+            <p>This is what everyone else will see</p>
+          <form 
+            action="<%= listing.id %>/signUpListing" 
+            method="GET" 
+            class="col-3">
+            <button class="btn btn-primary">Sign-Up</button>
+          </form>
+          <div class="col-3 mt-5">
+            <img class="img-fluid" src="<%= listing.image%>">
+            <p><%= listing.user %></p>
+            <p><%= listing.description %></p>
+            <p><%= listing.location %></p>
+            <p><%= listing.date %></p>
+          </div>
+          <div class="col-6 mt-5">
+            <a class="btn btn-primary" href="/profile">Back</a>
+          </div>
+          <% } %>
+          
+          
         </div>
       </div>
-      <div id="listing-information" class="col-3 mt-5">
-        <img class="img-fluid" src="<%= listing.image%>">
-        <p id="listing-user"><%= listing.user %></p>
-        <p id="listing-description" style="display: block;"><%= listing.description %></p>
-        <form>
-          <textarea type="text" name="description" placeholder="<%= listing.description %>" style="display: none;"></textarea>
-        </form>
-        <p id="listing-location" style="display: block;"><%= listing.location %></p>
-        <form>
-          <textarea type="text" name="location" placeholder="<%= listing.location %>" style="display: none;"></textarea>
-        </form>
-        <p id="listing-date" style="display: block;"><%= listing.date %></p>
-        <form>
-          <textarea type="text" name="date" placeholder="<%= listing.date %>" style="display: none;"></textarea>
-        </form>
-      </div>
-      <%if(user && user.organization === listing.user){ %>
-        <form>
-          <button type="submit" class="btn btn-primary">Edit Information</button>
-        </form>
-      <% } %>
-      <%if(user){ %>
-      <div class="col-6 mt-5">
-        <a class="btn btn-primary" href="/organization">Back</a>
-      </div>
-      <% } else { %>
-      <div class="col-6 mt-5">
-        <a class="btn btn-primary" href="/profile">Back</a>
-      </div>
-      <% } %>
     </div>
   </div>
 <%- include('partials/footer') -%>
