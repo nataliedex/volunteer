@@ -24,17 +24,19 @@
                 type="text" 
                 name="description" 
                 class="listing-edit-field" 
+                placeholder="<%= listing.description %>"
                 style="display: none;"
               ><%= listing.description %></textarea>
               <!-- Location Field -->
-              <p id="listing-location" style="display: block;"><%= listing.location %></p>
+              <p id="listing-location" style="display: block;">first option<%= listing.location %></p>
               <input 
                 id="location-field"
                 type="text" 
                 name="location" 
                 class="listing-edit-field" 
+                placeholder="<%= listing.location %>"
                 style="display: none;"
-              ><%= listing.location %></input>
+              >second option<%= listing.location %></input>
               <!-- Date Field -->
               <p id="listing-date" style="display: block;"><%= listing.date %></p>
               <input 
@@ -42,6 +44,7 @@
                 type="date" 
                 name="date" 
                 class="listing-edit-field" 
+                placeholder="<%= listing.date %>"
                 style="display: none;"
               ><%= listing.date %></input>
             </form>
@@ -54,14 +57,10 @@
           >
             <button class="btn btn-primary" type="submit">Delete</button>
           </form>
-
-          
-
           <div class="col-6 mt-5">
             <a class="btn btn-primary" href="/organization">Back</a>
           </div>
-          <%}%>
-          <%if(!user && user.organization !== listing.user){ %>
+          <% } else { %>
             <p>This is what everyone else will see</p>
           <form 
             action="<%= listing.id %>/signUpListing" 
