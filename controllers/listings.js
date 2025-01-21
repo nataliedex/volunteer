@@ -8,9 +8,9 @@ module.exports = {
 
       const listing = await Listing.findById(req.params.id);
       const organization = await Organization.findOne({ organization: listing.user });
-      console.log("listing:", listing);
-      console.log("organization:", organization)
-      
+      console.log("listing.user", listing.user);
+      console.log("user", req.user);
+
       res.render("listing.ejs", { 
         listing, 
         user: req.user, 

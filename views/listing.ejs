@@ -5,7 +5,7 @@
         <h2><%= listing.title %></h2>
         <div class="row justify-content-between">
           <h3 class="col-3">Sign-ups </h3>
-          <%if(!user && user.id !== listing.user){ %>
+          <%if(!user && user.organization !== listing.user){ %>
           <form 
             action="<%= listing.id %>/signUpListing" 
             method="GET" 
@@ -14,7 +14,7 @@
           </form>
           <% } %>
           
-          <%if(user && user.id === listing.user){ %>
+          <%if(user && user.organization === listing.user){ %>
           <form
             action="/listing/deleteListing/<%= listing.id %>?_method=DELETE"
             method="POST"
@@ -41,7 +41,7 @@
           <textarea type="text" name="date" placeholder="<%= listing.date %>" style="display: none;"></textarea>
         </form>
       </div>
-      <%if(user && user.id === listing.user){ %>
+      <%if(user && user.organization === listing.user){ %>
         <form>
           <button type="submit" class="btn btn-primary">Edit Information</button>
         </form>
