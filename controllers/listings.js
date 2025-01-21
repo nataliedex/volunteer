@@ -39,11 +39,15 @@ module.exports = {
     }
   },
 
-  SignUpListing: async (req, res) => {
+
+  getSignUpListing: async (req, res) => {
     try {
-      res.render("listing.ejs");
+      const listing = await Listing.findById(req.params.id);
+      console.log("clicked");
+      res.render("volunteer-signup.ejs", { listing });
     } catch (err) {
       console.log(err);
+      res.status(500).send("Server error");
     }
   },
 
