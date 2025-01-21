@@ -10,43 +10,16 @@
             <p>This will be what the organization that listed the event will see</p>
             
           <div id="listing-information" class="col-3 mt-5">
-            <form action="/listing/updateListing/<%= listing.id %>" enctype="multipart/form-data" method="POST">
-              <button type="submit" class="btn btn-primary" id="listing-edit" style="display: block;">Edit Information</button>
+            <form action="/updateListing/<%= listing.id %>" enctype="multipart/form-data" method="POST">
+              <button type="button" class="btn btn-primary" id="listing-edit" style="display: block;">Edit Information</button>
               <button type="submit" class="btn btn-primary" id="save-edit" style="display: none;">Save</button>
-              <button type="submit" class="btn btn-primary" id="exit-edit" style="display: none;">Exit Edit</button>
+              <button type="button" class="btn btn-primary" id="exit-edit" style="display: none;">Exit Edit</button>
 
               <img class="img-fluid" src="<%= listing.image%>">
               <p id="listing-user"><%= listing.user %></p>
-              <!-- Description Field -->
               <p id="listing-description" style="display: block;"><%= listing.description %></p>
-              <textarea 
-                id="description-field"
-                type="text" 
-                name="description" 
-                class="listing-edit-field" 
-                placeholder="<%= listing.description %>"
-                style="display: none;"
-              ><%= listing.description %></textarea>
-              <!-- Location Field -->
-              <p id="listing-location" style="display: block;">first option<%= listing.location %></p>
-              <input 
-                id="location-field"
-                type="text" 
-                name="location" 
-                class="listing-edit-field" 
-                placeholder="<%= listing.location %>"
-                style="display: none;"
-              >second option<%= listing.location %></input>
-              <!-- Date Field -->
+              <p id="listing-location" style="display: block;"><%= listing.location %></p>
               <p id="listing-date" style="display: block;"><%= listing.date %></p>
-              <input 
-                id="date-field"
-                type="date" 
-                name="date" 
-                class="listing-edit-field" 
-                placeholder="<%= listing.date %>"
-                style="display: none;"
-              ><%= listing.date %></input>
             </form>
           </div>
 

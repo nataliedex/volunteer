@@ -2,40 +2,74 @@ const editButton = document.getElementById("listing-edit");
 const saveButton = document.getElementById("save-edit");
 const exitEdit = document.getElementById("exit-edit");
 
-const editFields= document.querySelectorAll(".listing-edit-field");
+const form = document.querySelector("form[action^='/listing/updateListing']");
 const displayFields = {
     description: document.getElementById("listing-description"),
     location: document.getElementById("listing-location"),
     date: document.getElementById("listing-date"),
 };
 
-let originalValues = {
-    description: document.getElementById("description-field").value,
-    location: document.getElementById("location-field").value,
-    date: document.getElementById("date-field").value,
-};
+let originalValues = {};
 
+// create dynamic input fields
+function createInput(id, type, value){
+    const input = document.createElement("input");
+    input.id = id;
+    input.name = id;
+    input.type = type;
+    input.value = value;
+    input.className = "form-control";
+    return input;
+}
+// edit mode
 editButton.addEventListener("click", (event) => {
     event.preventDefault();
-    editFields.forEach((field) => {
-        field.style.display = "block";
-        field.value = originalValues[field.name];
-    });
 
-    Object.values(displayFields).forEach((field) => (field.style.display = "none"));
+    originalValues = {
+        description: displayFields.description.textContent.trim(),
+        location: displayFields.location.textContent.trim(),
+        date: displayFields.date.textContent.trim(),
+    };
+
+    displayFields.description.replaceWith(createInput("description-field", "textarea", originalValues.description));
+    displayFields.location.replaceWith(createInput("location-field", "text", originalValues.location));
+    displayFields.date.replaceWith(createInput("date-field", "date", originalValues.date));
+
     editButton.style.display = "none";
     saveButton.style.display = "block";
     exitEdit.style.display = "block";
 });
-
+// exit edit mode
 exitEdit.addEventListener("click", (event) => {
     event.preventDefault();
-    editFields.forEach((field) => {
-        field.style.display = "none";
-        field.value = "";
-    });
-    Object.values(displayFields).forEach((field) => (field.style.display = "block"));
+
+    const descriptionInput = document.getElementById("description-field");
+    const locationInput = document.getElementById("location-field");
+    const dateInput = document.getElementById("date-field");
+
+    descriptionInput.replaceWith(displayFields.description);
+    locationInput.replaceWith(displayFields.location);
+    dateInput.replaceWith(displayFields.date);
+
+    displayFields.description.textContent = originalValues.description;
+    displayFields.location.textContent = originalValues.location;
+    displayFields.date.textContent = originalValues.date;
+
     editButton.style.display = "block";
     saveButton.style.display = "none";
     exitEdit.style.display = "none";
+});
+
+saveButton.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    const descriptionInput = document.getElementById("description-field");
+    const locationInput = document.getElementById("location-field");
+    const dateInput = document.getElementById("date-field");
+
+    form.appendChild(descriptionInput);
+    form.appendChild(locationInput);
+    form.appendChild(dateInput);
+    
+    form.submit();
 });
