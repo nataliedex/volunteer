@@ -12,20 +12,28 @@ const displayFields = {
 let originalValues = {};
 
 // Create dynamic input fields
-function createInput(id, type, value) {
+function createInput(name, type, value) {
     const input = document.createElement("input");
-    input.id = id;
-    input.name = id;
+    input.id = `${name}-field`;
+    input.name = name;
     input.type = type;
-    input.value = value;
+    input.value = value || "";
     input.className = "form-control";
     return input;
+}
+
+function createTextarea(name, value) {
+    const textarea = document.createElement("textarea");
+    textarea.id = `${name}-field`;
+    textarea.name = name;
+    textarea.value = value || ""; // Pre-fill with value
+    textarea.className = "form-control";
+    return textarea;
 }
 
 // Enter edit mode
 editButton.addEventListener("click", (event) => {
     event.preventDefault();
-    console.log(form);
 
     originalValues = {
         description: displayFields.description.textContent.trim(),
@@ -33,13 +41,23 @@ editButton.addEventListener("click", (event) => {
         date: displayFields.date.textContent.trim(),
     };
 
-    displayFields.description.replaceWith(createInput("description-field", "text", originalValues.description));
-    displayFields.location.replaceWith(createInput("location-field", "text", originalValues.location));
-    displayFields.date.replaceWith(createInput("date-field", "date", originalValues.date));
+    const descriptionInput = createTextarea("description", originalValues.description);
+    const locationInput = createInput("location", "text", originalValues.location);
+    const dateInput = createInput("date", "date", originalValues.date);
+
+    displayFields.description.replaceWith(descriptionInput);
+    displayFields.location.replaceWith(locationInput);
+    displayFields.date.replaceWith(dateInput);
+
+    displayFields.description = descriptionInput;
+    displayFields.location = locationInput;
+    displayFields.date = dateInput;
 
     editButton.style.display = "none";
     saveButton.style.display = "block";
     exitEdit.style.display = "block";
+
+    console.log("Entered edit mode:", originalValues);
 });
 
 // Exit edit mode
@@ -61,23 +79,16 @@ exitEdit.addEventListener("click", (event) => {
     editButton.style.display = "block";
     saveButton.style.display = "none";
     exitEdit.style.display = "none";
+
+    console.log("exited edit mode");
 });
 
 // Save changes
 saveButton.addEventListener("click", (event) => {
     event.preventDefault();
 
-    const descriptionInput = document.getElementById("description-field");
-    const locationInput = document.getElementById("location-field");
-    const dateInput = document.getElementById("date-field");
-
-    if (!form) {
-        console.error("Form is not found. Ensure the form exists in the DOM and matches the selector.");
-        return;
-    }
-
-    console.log("Submitting form data:", new FormData(form));
-    
+    const formData = new FormData(form);
+    console.log("Form data to submit:", Object.fromEntries(formData));
 
     form.submit();
 });

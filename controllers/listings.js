@@ -69,6 +69,7 @@ module.exports = {
       const updatedListing = await Listing.findOneAndUpdate(
         { _id: req.params.id },
         { description, location, date },
+        { new: true }
       );
       console.log("Updated Listing", updatedListing);
       res.redirect(`/listing/${req.params.id}`);
