@@ -25,9 +25,7 @@ const ListingSchema = new mongoose.Schema({
       email: {
         type: String,
       },
-      number: {
-        type: Number,
-      },
+      
     },
   ],
 

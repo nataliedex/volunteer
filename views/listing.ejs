@@ -5,7 +5,14 @@
         <h2><%= listing.title %></h2>
         <div class="row justify-content-between">
           <h3 class="col-3">Sign-ups </h3>
-          <p>This is where we will see a list of current volunteers</p>
+          <ul class="row list-unstyled">
+            <% for(let i=0; i<listing.volunteers.length; i++) {%>
+              <li class="col-6 justify-content-between mt-5">
+                <p><%= listing.volunteers[i].name%></p>
+                <p><%= listing.volunteers[i].email%></p>
+              </li>
+            <% } %>
+            </ul>
           <%if(user && user.organization === listing.user){ %>
             <p>This will be what the organization that listed the event will see</p>
             
