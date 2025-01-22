@@ -1,94 +1,104 @@
 const editButton = document.getElementById("listing-edit");
 const saveButton = document.getElementById("save-edit");
-const exitEdit = document.getElementById("exit-edit");
+const exitButton = document.getElementById("exit-edit");
 
-const form = document.getElementById("update-listing-form");
-const displayFields = {
-    description: document.getElementById("listing-description"),
-    location: document.getElementById("listing-location"),
-    date: document.getElementById("listing-date"),
-};
+const descriptionField = document.getElementById("listing-description");
+const locationField = document.getElementById("listing-location");
+const dateField = document.getElementById("listing-date");
 
 let originalValues = {};
 
-// Create dynamic input fields
+// Function to create input fields dynamically
 function createInput(name, type, value) {
-    const input = document.createElement("input");
-    input.id = `${name}-field`;
-    input.name = name;
-    input.type = type;
-    input.value = value || "";
-    input.className = "form-control";
-    return input;
+  const input = document.createElement("input");
+  input.id = `${name}-field`;
+  input.name = name;
+  input.type = type;
+  input.value = value || "";
+  input.className = "form-control";
+  return input;
 }
 
 function createTextarea(name, value) {
-    const textarea = document.createElement("textarea");
-    textarea.id = `${name}-field`;
-    textarea.name = name;
-    textarea.value = value || ""; // Pre-fill with value
-    textarea.className = "form-control";
-    return textarea;
+  const textarea = document.createElement("textarea");
+  textarea.id = `${name}-field`;
+  textarea.name = name;
+  textarea.value = value || "";  // Pre-fill with value
+  textarea.className = "form-control";
+  return textarea;
+}
+
+// Capture the current values before entering edit mode
+function captureOriginalValues() {
+  originalValues = {
+    description: descriptionField.textContent.trim(),
+    location: locationField.textContent.trim(),
+    date: dateField.textContent.trim(),
+  };
 }
 
 // Enter edit mode
 editButton.addEventListener("click", (event) => {
-    event.preventDefault();
+  event.preventDefault();
+  
+  // Capture original values before editing
+  captureOriginalValues();
 
-    originalValues = {
-        description: displayFields.description.textContent.trim(),
-        location: displayFields.location.textContent.trim(),
-        date: displayFields.date.textContent.trim(),
-    };
+  // Replace <p> elements with input fields
+  descriptionField.replaceWith(createTextarea("description", originalValues.description));
+  locationField.replaceWith(createInput("location", "text", originalValues.location));
+  dateField.replaceWith(createInput("date", "date", originalValues.date));
 
-    const descriptionInput = createTextarea("description", originalValues.description);
-    const locationInput = createInput("location", "text", originalValues.location);
-    const dateInput = createInput("date", "date", originalValues.date);
-
-    displayFields.description.replaceWith(descriptionInput);
-    displayFields.location.replaceWith(locationInput);
-    displayFields.date.replaceWith(dateInput);
-
-    displayFields.description = descriptionInput;
-    displayFields.location = locationInput;
-    displayFields.date = dateInput;
-
-    editButton.style.display = "none";
-    saveButton.style.display = "block";
-    exitEdit.style.display = "block";
-
-    console.log("Entered edit mode:", originalValues);
+  // Toggle button visibility
+  editButton.style.display = "none";
+  saveButton.style.display = "block";
+  exitButton.style.display = "block";
 });
 
-// Exit edit mode
-exitEdit.addEventListener("click", (event) => {
-    event.preventDefault();
+// Exit edit mode without saving
+exitButton.addEventListener("click", (event) => {
+  event.preventDefault();
 
-    const descriptionInput = document.getElementById("description-field");
-    const locationInput = document.getElementById("location-field");
-    const dateInput = document.getElementById("date-field");
+// Revert to original <p> elements with captured values
+const newDescription = document.getElementById("description-field");
+const newLocation = document.getElementById("location-field");
+const newDate = document.getElementById("date-field");
 
-    descriptionInput.replaceWith(displayFields.description);
-    locationInput.replaceWith(displayFields.location);
-    dateInput.replaceWith(displayFields.date);
+descriptionField.textContent = originalValues.description;
+locationField.textContent = originalValues.location;
+dateField.textContent = originalValues.date;
 
-    displayFields.description.textContent = originalValues.description;
-    displayFields.location.textContent = originalValues.location;
-    displayFields.date.textContent = originalValues.date;
+newDescription.replaceWith(descriptionField);
+newLocation.replaceWith(locationField);
+newDate.replaceWith(dateField);
 
-    editButton.style.display = "block";
-    saveButton.style.display = "none";
-    exitEdit.style.display = "none";
-
-    console.log("exited edit mode");
+// Toggle button visibility
+editButton.style.display = "block";
+saveButton.style.display = "none";
+exitButton.style.display = "none";
 });
 
 // Save changes
 saveButton.addEventListener("click", (event) => {
-    event.preventDefault();
+event.preventDefault();
 
-    const formData = new FormData(form);
-    console.log("Form data to submit:", Object.fromEntries(formData));
+// Get updated values
+const updatedDescription = document.getElementById("description-field").value;
+const updatedLocation = document.getElementById("location-field").value;
+const updatedDate = document.getElementById("date-field").value;
 
-    form.submit();
+// Update the original values
+originalValues.description = updatedDescription;
+originalValues.location = updatedLocation;
+originalValues.date = updatedDate;
+
+// Optionally, submit the form or send updated values to the server
+const form = document.getElementById("update-listing-form");
+const formData = new FormData(form);
+formData.set("description", updatedDescription);
+formData.set("location", updatedLocation);
+formData.set("date", updatedDate);
+
+// Submit the form if needed
+form.submit();
 });
