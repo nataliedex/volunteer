@@ -62,6 +62,18 @@
 
           <section class="volunteer-schedule">
             <h3>Current Volunteer Schedule</h3>
+            <ul class="row list-unstyled">
+              <% for(let i=0; i<listing.length; i++) {%>
+                <% for(let j=0; j<listing[i].volunteers.length; j++){ %>
+                <li class="col-6 justify-content-between mt-5">
+                  <% if(listing[i].volunteers[j].email === user.email){ %>
+                    <p><%= listing[i].title %></p>
+                    <p><%= listing[i].date %></p>
+                    <% } %>
+                <% } %>
+                </li>
+              <% } %>
+              </ul>
           </section>
           <section class="volunteer-openings">
             <h3>Volunteer Openings</h3>
