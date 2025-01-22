@@ -66,10 +66,9 @@ module.exports = {
   updateListing: async (req, res) => {
     try{
       const { description, location, date } = req.body;
-      const updatedListing = await Listing.findByIdAndUpdate(
-        req.params.id,
+      const updatedListing = await Listing.findOneAndUpdate(
+        { _id: req.params.id },
         { description, location, date },
-        { new: true },
       );
       console.log("Updated Listing", updatedListing);
       res.redirect(`/listing/${req.params.id}`);

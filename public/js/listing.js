@@ -11,8 +11,8 @@ const displayFields = {
 
 let originalValues = {};
 
-// create dynamic input fields
-function createInput(id, type, value){
+// Create dynamic input fields
+function createInput(id, type, value) {
     const input = document.createElement("input");
     input.id = id;
     input.name = id;
@@ -21,7 +21,8 @@ function createInput(id, type, value){
     input.className = "form-control";
     return input;
 }
-// edit mode
+
+// Enter edit mode
 editButton.addEventListener("click", (event) => {
     event.preventDefault();
 
@@ -31,7 +32,7 @@ editButton.addEventListener("click", (event) => {
         date: displayFields.date.textContent.trim(),
     };
 
-    displayFields.description.replaceWith(createInput("description-field", "textarea", originalValues.description));
+    displayFields.description.replaceWith(createInput("description-field", "text", originalValues.description));
     displayFields.location.replaceWith(createInput("location-field", "text", originalValues.location));
     displayFields.date.replaceWith(createInput("date-field", "date", originalValues.date));
 
@@ -39,7 +40,8 @@ editButton.addEventListener("click", (event) => {
     saveButton.style.display = "block";
     exitEdit.style.display = "block";
 });
-// exit edit mode
+
+// Exit edit mode
 exitEdit.addEventListener("click", (event) => {
     event.preventDefault();
 
@@ -60,6 +62,7 @@ exitEdit.addEventListener("click", (event) => {
     exitEdit.style.display = "none";
 });
 
+// Save changes
 saveButton.addEventListener("click", (event) => {
     event.preventDefault();
 
@@ -67,9 +70,7 @@ saveButton.addEventListener("click", (event) => {
     const locationInput = document.getElementById("location-field");
     const dateInput = document.getElementById("date-field");
 
-    form.appendChild(descriptionInput);
-    form.appendChild(locationInput);
-    form.appendChild(dateInput);
-    
+    console.log("Submitting form data:", new FormData(form)); 
+
     form.submit();
 });
