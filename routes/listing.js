@@ -8,6 +8,7 @@ router.get("/:id", ensureAuth, listingsController.getListing);
 router.post("/createListing", listingsController.createListing);
 router.post("/updateListing/:id", listingsController.updateListing);
 router.get("/signUpListing/:id", ensureAuth, listingsController.getSignUpListing);
+router.post("/addVolunteer/:id", listingsController.addVolunteer);
 router.delete("/deleteListing/:id", listingsController.deleteListing);
 
 module.exports = router;

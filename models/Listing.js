@@ -17,18 +17,19 @@ const ListingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  volunteers: {
-    name: {
-      type: String,
+  volunteers: [
+    {
+      name: {
+        type: String,
+      },
+      email: {
+        type: String,
+      },
+      number: {
+        type: Number,
+      },
     },
-    email: {
-      type: String,
-      unique: true,
-    },
-    number: {
-      type: Number,
-    },
-  },
+  ],
 
   organization: {
     type: mongoose.Schema.Types.ObjectId,

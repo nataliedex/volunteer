@@ -14,12 +14,26 @@
               <button type="button" class="btn btn-primary" id="listing-edit" style="display: block;">Edit Information</button>
               <button type="submit" class="btn btn-primary" id="save-edit" style="display: none;">Save</button>
               <button type="button" class="btn btn-primary" id="exit-edit" style="display: none;">Exit Edit</button>
-
-              <img class="img-fluid" src="<%= listing.image%>">
-              <p id="listing-user"><%= listing.user %></p>
-              <p id="listing-description" style="display: block;" name="description" value="<%= listing.description %>"><%= listing.description %></p>
-              <p id="listing-location" style="display: block;" name="location" value="<%= listing.location %>"><%= listing.location %></p>
-              <p id="listing-date" style="display: block;" name="date" value="<%= listing.date %>"><%= listing.date %></p>
+              
+              <div class="volunteer-container">
+                <img class="img-fluid" src="<%= listing.image%>">
+                <div id="volunteer-organization">
+                  <h4>Organization: </h4>
+                  <p id="listing-user"><%= listing.user %></p>
+                </div>
+                <div id="volunteer-description">
+                  <h4>Description: </h4>
+                  <p id="listing-description" style="display: block;" name="description" value="<%= listing.description %>"><%= listing.description %></p>
+                </div>
+                <div id="volunteer-location">
+                  <h4>Location: </h4>
+                  <p id="listing-location" style="display: block;" name="location" value="<%= listing.location %>"><%= listing.location %></p>
+                </div>
+                <div id="volunteer-date">
+                  <h4>Date: </h4>
+                  <p id="listing-date" style="display: block;" name="date" value="<%= listing.date %>"><%= listing.date %></p>
+                </div>
+              </div>
             </form>
           </div>
 
@@ -36,17 +50,31 @@
           <% } else { %>
             <p>This is what everyone else will see</p>
           <form 
-            action="<%= listing.id %>/signUpListing" 
+            action="/listing/signUpListing/<%= listing.id %>" 
             method="GET" 
             class="col-3">
             <button class="btn btn-primary">Sign-Up</button>
           </form>
           <div class="col-3 mt-5">
-            <img class="img-fluid" src="<%= listing.image%>">
-            <p><%= listing.user %></p>
-            <p><%= listing.description %></p>
-            <p><%= listing.location %></p>
-            <p><%= listing.date %></p>
+            <div class="volunteer-container">
+              <img class="img-fluid" src="<%= listing.image%>">
+              <div id="volunteer-organization">
+                <h4>Organization: </h4>
+                <p><%= listing.user %></p>
+              </div>
+              <div id="volunteer-description">
+                <h4>Description: </h4>
+                <p><%= listing.description %></p>
+              </div>
+              <div id="volunteer-location">
+                <h4>Location: </h4>
+                <p><%= listing.location %></p>
+              </div>
+              <div id="volunteer-date">
+                <h4>Date: </h4>
+                <p><%= listing.date %></p>
+              </div>
+            </div>
           </div>
           <div class="col-6 mt-5">
             <a class="btn btn-primary" href="/profile">Back</a>

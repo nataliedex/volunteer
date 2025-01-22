@@ -1,5 +1,6 @@
 const Listing = require("../models/Listing");
 const Organization = require("../models/Organization");
+const User = require("../models/User");
 
 module.exports = {
 
@@ -42,9 +43,36 @@ module.exports = {
 
   getSignUpListing: async (req, res) => {
     try {
+      const userId = req.user.id;
       const listing = await Listing.findById(req.params.id);
-      console.log("clicked");
-      res.render("volunteer-signup.ejs", { listing });
+      const user = await User.findById(userId);
+      res.render("volunteer-signup.ejs", { listing, user });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Server error");
+    }
+  },
+
+  addVolunteer: async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const user = await User.findById(userId);
+
+      await Listing.findByIdAndUpdate(
+        req.params.id, 
+        { 
+          $push: {
+            volunteers: {
+              name: `${user.firstName} ${user.lastName}`,
+              email: user.email,
+            },
+          },
+        } 
+      );
+          console.log("Volunteer added to the listing");
+          res.redirect(`/listing/${req.params.id}`);
+
+
     } catch (err) {
       console.log(err);
       res.status(500).send("Server error");
