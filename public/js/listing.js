@@ -2,7 +2,7 @@ const editButton = document.getElementById("listing-edit");
 const saveButton = document.getElementById("save-edit");
 const exitEdit = document.getElementById("exit-edit");
 
-const form = document.querySelector("form[action^='/listing/updateListing']");
+const form = document.getElementById("update-listing-form");
 const displayFields = {
     description: document.getElementById("listing-description"),
     location: document.getElementById("listing-location"),
@@ -25,6 +25,7 @@ function createInput(id, type, value) {
 // Enter edit mode
 editButton.addEventListener("click", (event) => {
     event.preventDefault();
+    console.log(form);
 
     originalValues = {
         description: displayFields.description.textContent.trim(),
@@ -70,7 +71,13 @@ saveButton.addEventListener("click", (event) => {
     const locationInput = document.getElementById("location-field");
     const dateInput = document.getElementById("date-field");
 
-    console.log("Submitting form data:", new FormData(form)); 
+    if (!form) {
+        console.error("Form is not found. Ensure the form exists in the DOM and matches the selector.");
+        return;
+    }
+
+    console.log("Submitting form data:", new FormData(form));
+    
 
     form.submit();
 });
