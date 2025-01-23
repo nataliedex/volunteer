@@ -1,112 +1,110 @@
 <%- include('partials/header') -%>
 <div class="container">
-    <div class="row mt-5">
-      <div>
-        <h3><%= listing.title %> hosted by: <%= listing.user %></h3>
-      </div>
-      <div class="row  container py-3 mb-4 border-bottom">
-        <div class="col-md-12">
-          <h3>Current Sign-ups: <%= listing.volunteers.length %></h3>
-          <table class="table table-bordered mt-3">
-            <thead class="thead-light">
+  <div class="row mt-5">
+    <div>
+      <h3><%= listing.title %> hosted by: <%= listing.user %></h3>
+    </div>
+    <div class="row  container py-3 mb-4 border-bottom">
+      <div class="col-md-12">
+        <h3>Current Sign-ups: <%= listing.volunteers.length %></h3>
+        <table class="table table-bordered mt-3">
+          <thead class="thead-light">
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(let i=0; i<listing.volunteers.length; i++) {%>
               <tr>
-                <th>Name</th>
-                <th>Email</th>
+                <td><%= listing.volunteers[i].name%></td>
+                <td><%= listing.volunteers[i].email%></td>
               </tr>
-            </thead>
-            <tbody>
-              <% for(let i=0; i<listing.volunteers.length; i++) {%>
-                <tr>
-                  <td><%= listing.volunteers[i].name%></td>
-                  <td><%= listing.volunteers[i].email%></td>
-                </tr>
-              <% } %>
-            </tbody>
-          </table>
-        </div>
-      </div>
-          
-
-            
-
-          <%if(user && user.organization === listing.user){ %>
-          <div id="listing-information" class="col-3 mt-5">
-            <form id="update-listing-form" action="/listing/updateListing/<%= listing.id %>" method="POST">
-              <button type="button" class="btn btn-primary" id="listing-edit" style="display: block;">Edit Information</button>
-              <button type="submit" class="btn btn-primary" id="save-edit" style="display: none;">Save</button>
-              <button type="button" class="btn btn-primary" id="exit-edit" style="display: none;">Exit Edit</button>
-              
-              <div class="volunteer-container">
-                <img class="img-fluid" src="<%= listing.image%>">
-                <div id="volunteer-organization">
-                  <h4>Organization: </h4>
-                  <p id="listing-user"><%= listing.user %></p>
-                </div>
-                <div id="volunteer-description">
-                  <h4>Description: </h4>
-                  <p id="listing-description" style="display: block;" name="description" value="<%= listing.description %>"><%= listing.description %></p>
-                </div>
-                <div id="volunteer-location">
-                  <h4>Location: </h4>
-                  <p id="listing-location" style="display: block;" name="location" value="<%= listing.location %>"><%= listing.location %></p>
-                </div>
-                <div id="volunteer-date">
-                  <h4>Date: </h4>
-                  <p id="listing-date" style="display: block;" name="date" value="<%= listing.date %>"><%= listing.date %></p>
-                </div>
-              </div>
-            </form>
-          </div>
-
-          <form
-            action="/listing/deleteListing/<%= listing.id %>?_method=DELETE"
-            method="POST"
-            class="col-3"
-          >
-            <button class="btn btn-primary" type="submit">Delete</button>
-          </form>
-          <div class="col-6 mt-5">
-            <a class="btn btn-primary" href="/organization">Back</a>
-          </div>
-          <% } else { %>
-          <form 
-            action="/listing/signUpListing/<%= listing.id %>" 
-            method="GET" 
-            class="col-3">
-              <% const isUserInVolunteers = listing.volunteers && listing.volunteers.some(vol => vol.email === user.email);%>
-              <% if(!isUserInVolunteers){ %>
-                <button class="btn btn-primary">Sign-Up</button>
-              <% } %>
-          </form>
-          <div class="col-3 mt-5">
-            <div class="volunteer-container">
-              <img class="img-fluid" src="<%= listing.image%>">
-              <div id="volunteer-organization">
-                <h4>Organization: </h4>
-                <p><%= listing.user %></p>
-              </div>
-              <div id="volunteer-description">
-                <h4>Description: </h4>
-                <p><%= listing.description %></p>
-              </div>
-              <div id="volunteer-location">
-                <h4>Location: </h4>
-                <p><%= listing.location %></p>
-              </div>
-              <div id="volunteer-date">
-                <h4>Date: </h4>
-                <p><%= listing.date %></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-6 mt-5">
-            <a class="btn btn-primary" href="/profile">Back</a>
-          </div>
-          <% } %>
-          
-          
-        </div>
+            <% } %>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
+</div>
+
+  <div class="row container py-3 mb-4">
+    <div class="col-md-6">
+      <%if(user && user.organization === listing.user){ %>
+        <div id="listing-information" class="col-3 mt-5 py-3 mb-4">
+          <form id="update-listing-form" action="/listing/updateListing/<%= listing.id %>" method="POST">
+            <button type="button" class="btn btn-primary" id="listing-edit" style="display: block;">Edit Information</button>
+            <button type="submit" class="btn btn-primary" id="save-edit" style="display: none;">Save</button>
+            <button type="button" class="btn btn-primary" id="exit-edit" style="display: none;">Exit Edit</button>
+            
+            <div class="volunteer-container py-3 mb-4">
+              <img class="img-fluid" src="<%= listing.image%>">
+              <div id="volunteer-organization">
+                <h4>Organization: </h4>
+                <p id="listing-user"><%= listing.user %></p>
+              </div>
+              <div id="volunteer-description">
+                <h4>Description: </h4>
+                <p id="listing-description" style="display: block;" name="description" value="<%= listing.description %>"><%= listing.description %></p>
+              </div>
+              <div id="volunteer-location">
+                <h4>Location: </h4>
+                <p id="listing-location" style="display: block;" name="location" value="<%= listing.location %>"><%= listing.location %></p>
+              </div>
+              <div id="volunteer-date">
+                <h4>Date: </h4>
+                <p id="listing-date" style="display: block;" name="date" value="<%= listing.date %>"><%= listing.date %></p>
+              </div>
+            </div>
+          </form>
+        </div>
+        <form
+        action="/listing/deleteListing/<%= listing.id %>?_method=DELETE"
+        method="POST"
+        class="col-3"
+      >
+        <button class="btn btn-primary" type="submit">Delete</button>
+      </form>
+      <div class="col-6 mt-5">
+        <a class="btn btn-primary" href="/organization">Back</a>
+      </div>
+      <% } else { %>
+      <form 
+        action="/listing/signUpListing/<%= listing.id %>" 
+        method="GET" 
+        class="col-3">
+          <% const isUserInVolunteers = listing.volunteers && listing.volunteers.some(vol => vol.email === user.email);%>
+          <% if(!isUserInVolunteers){ %>
+            <button class="btn btn-primary">Sign-Up</button>
+          <% } %>
+      </form>
+      <% } %>
+    </div>
+    <div class="col-md-6">
+      <div class="volunteer-container">
+        <img class="img-fluid" src="<%= listing.image%>">
+        <div id="volunteer-organization">
+          <h4>Organization: </h4>
+          <p><%= listing.user %></p>
+        </div>
+        <div id="volunteer-description">
+          <h4>Description: </h4>
+          <p><%= listing.description %></p>
+        </div>
+        <div id="volunteer-location">
+          <h4>Location: </h4>
+          <p><%= listing.location %></p>
+        </div>
+        <div id="volunteer-date">
+          <h4>Date: </h4>
+          <p><%= listing.date %></p>
+        </div>
+      </div>
+    </div>
+    <div class="container col-6 mt-5">
+      <a class="btn btn-primary" href="/profile">Back</a>
+    </div>
+  </div>
+
+          
 <%- include('partials/footer') -%>
