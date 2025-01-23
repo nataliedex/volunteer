@@ -9,6 +9,7 @@ router.post("/createListing", listingsController.createListing);
 router.post("/updateListing/:id", listingsController.updateListing);
 router.get("/signUpListing/:id", ensureAuth, listingsController.getSignUpListing);
 router.post("/addVolunteer/:id", listingsController.addVolunteer);
+router.delete("/removeVolunteer/:id", listingsController.removeVolunteer);
 router.delete("/deleteListing/:id", listingsController.deleteListing);
 
 module.exports = router;

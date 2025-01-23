@@ -65,13 +65,24 @@
             <ul class="row list-unstyled">
               <% for(let i=0; i<listing.length; i++) {%>
                 <% for(let j=0; j<listing[i].volunteers.length; j++){ %>
-                <li class="col-6 justify-content-between mt-5">
-                  <% if(listing[i].volunteers[j].email === user.email){ %>
-                    <p><%= listing[i].title %></p>
-                    <p><%= listing[i].date %></p>
+
+                    <li class="col-6 justify-content-between mt-5">
+                      <% if(listing[i].volunteers[j].email === user.email){ %>
+                        <form
+                          action="/listing/removeVolunteer/<%= listing[i].id %>?_method=DELETE"
+                          method="POST"
+                          class="col-3"
+                        >
+                          <input type="hidden" name="name" value="<%= listing[i].volunteers[j].name %>">
+                          <input type="hidden" name="email" value="<%= listing[i].volunteers[j].email %>">
+                          <a href="/listing/<%= listing[i]._id%>"><h3><%= listing[i].title %></h3></a>
+                          <img class="img-fluid" src="<%= listing[i].image%>">
+                          <p><%= listing[i].date %></p>
+                          <button type="submit" class="btn btn-primary">Cancel</button>
+                        </form>
+                        <% } %>
                     <% } %>
-                <% } %>
-                </li>
+                    </li>
               <% } %>
               </ul>
           </section>

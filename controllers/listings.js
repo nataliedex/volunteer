@@ -91,6 +91,25 @@ module.exports = {
     }
   },
 
+  removeVolunteer: async (req, res) => {
+    try {
+      const { name, email } = req.body;
+      const { id } = req.params;
+
+      await Listing.findByIdAndUpdate(
+        { _id: id },
+        { $pull: { volunteers: { name : name, email: email } } },
+        { new: true },
+      );
+      
+      console.log("Deleted volunteer");
+      res.redirect("/profile");
+    } catch (err) {
+      console.error("Volunteer not deleted", err);
+      res.redirect("/profile");
+    }
+  },
+
   updateListing: async (req, res) => {
     try{
       const { description, location, date } = req.body;
