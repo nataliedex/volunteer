@@ -18,9 +18,9 @@
       <p class="fs-4 d-flex flex-column align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none" style="text-align: center;">
         <% if(user){ %>
           <% if(user.userType === "Volunteer"){ %>
-            Hello <%= user.firstName %>!
+            <a href="/profile" class="d-flex flex-column align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none" style="text-align: center;">Hey, <%= user.firstName %>!</a>
           <% } else { %>
-            Welcome <%= user.organization %>
+            <a href="/organization" class="d-flex flex-column align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none" style="text-align: center;">Nice to see you, <%= user.organization %></a>
           <% } %>
         <% } %>
       </p>
