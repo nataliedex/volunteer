@@ -49,8 +49,28 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
-  
+
   <p>I'm baby lomo fit deep v, twee DIY fingerstache craft beer letterpress bitters cloud bread four loko kickstarter. Twee brunch four dollar toast locavore tumblr ennui. Blue bottle mukbang celiac, vice ascot adaptogen hella +1 food truck hammock blog small batch solarpunk XOXO tacos. Post-ironic hot chicken mumblecore everyday carry.</p>
+  <!-- listings -->
+  <h3>Current Listings</h3>
+  <ul class="row list-unstyled">
+    <% for(let i=0; i<listing.length; i++) {%>
+      <li class="col-6 justify-content-between mt-5">
+        <% if(user) { %>
+          <a href="/listing/<%= listing[i]._id%>">
+        <% } else { %>
+          <a href="/login">
+        <% } %>
+          <h3><%= listing[i].title%></h3>
+        </a>
+        <img class="img-fluid" src="<%= listing[i].image%>">
+        <p><%= listing[i].user%></p>
+        <p><%= listing[i].description%></p>
+        <p><%= listing[i].location%></p>
+        <p><%= listing[i].date%></p>
+      </li>
+    <% } %>
+    </ul>
 </main>
     
 
