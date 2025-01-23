@@ -1,21 +1,35 @@
 <%- include('partials/header') -%>
 <div class="container">
-    <div class="row justify-content-center mt-5">
-      <div class="col-6">
-        <h2><%= listing.title %></h2>
-        <div class="row justify-content-between">
-          <h3 class="col-3">Sign-ups: <%= listing.volunteers.length %> </h3>
-          <ul class="row list-unstyled">
-            <% for(let i=0; i<listing.volunteers.length; i++) {%>
-              <li class="col-6 justify-content-between mt-5">
-                <p><%= listing.volunteers[i].name%></p>
-                <p><%= listing.volunteers[i].email%></p>
-              </li>
-            <% } %>
-            </ul>
-          <%if(user && user.organization === listing.user){ %>
-            <p>This will be what the organization that listed the event will see</p>
+    <div class="row mt-5">
+      <div>
+        <h3><%= listing.title %> hosted by: <%= listing.user %></h3>
+      </div>
+      <div class="row  container py-3 mb-4 border-bottom">
+        <div class="col-md-12">
+          <h3>Current Sign-ups: <%= listing.volunteers.length %></h3>
+          <table class="table table-bordered mt-3">
+            <thead class="thead-light">
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(let i=0; i<listing.volunteers.length; i++) {%>
+                <tr>
+                  <td><%= listing.volunteers[i].name%></td>
+                  <td><%= listing.volunteers[i].email%></td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+          
+
             
+
+          <%if(user && user.organization === listing.user){ %>
           <div id="listing-information" class="col-3 mt-5">
             <form id="update-listing-form" action="/listing/updateListing/<%= listing.id %>" method="POST">
               <button type="button" class="btn btn-primary" id="listing-edit" style="display: block;">Edit Information</button>
@@ -55,7 +69,6 @@
             <a class="btn btn-primary" href="/organization">Back</a>
           </div>
           <% } else { %>
-            <p>This is what everyone else will see</p>
           <form 
             action="/listing/signUpListing/<%= listing.id %>" 
             method="GET" 
