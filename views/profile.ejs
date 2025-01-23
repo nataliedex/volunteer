@@ -1,43 +1,44 @@
 <%- include('partials/header') -%>
 <div class="container">
   <div class="row mt-5">
-      <div class="col">
-          <div>
-              <h3>This is the INDIVIDUAL page</h3>
-              <p><strong>Welcome</strong> <%= user.firstName %></p>
-              <p><strong>Email</strong>: <%= user.email %></p>
-              <a href="/logout" class="col-3 btn btn-primary">Logout</a>
-          </div>
-          <!-- about me section -->
+      <div>
+          <h3><strong>Welcome</strong> <%= user.firstName %>!</h3>
+          <p>This is your home base for finding new and exciting Volunteer Opportunties. <strong>Let's Connect!</strong></p>
+      </div>
+      <div class="row  py-3 mb-4 border-bottom container">
+        <!-- about me section -->
+        <div class="col-md-6">
           <section id="about-me-section" class="section">
-            <div>
-              <% if(user.about){ %>
-                <h3>About Me Section</h3>
-                <p class="current-content"><%= user.about %></p>
-                <button type="button" class="col-3 btn btn-primary edit-button">edit about me</button>
-                
-                <!-- toggle edit form -->
-                <form class="edit-form" id="edit-form" action="/update-about" method="POST" style="display: none;">
-                  <textarea type="text" name="about" class="about-me-input" placeholder="<%= user.about %>"value="<%= user.about %>"></textarea>
-                  <button type="submit" class="btn btn-primary">submit</button>
-                  <button type="button" class="btn btn-secondary exit-edit-button">exit edit</button>
-                </form>
-                
-                <% } else { %>
-                <form class="edit-form" id="edit-form" action="/update-about" method="POST">
-                  <textarea type="text" name="about" placeholder="Write about yourself" class="about-me-input"></textarea>
-                  <button type="submit" class="btn btn-primary">submit</button>
-                </form>
-              <% }%>
-            </div>
+            <% if(user.about){ %>
+              <h3>Tell me about yourself, <strong><%= user.firstName %></strong></h3>
+              <p class="current-content"><%= user.about %></p>
+              <button type="button" class="btn btn-primary edit-button">edit</button>
+              
+              <!-- toggle edit form -->
+              <form class="edit-form" id="edit-form" action="/update-about" method="POST" style="display: none;">
+                <textarea type="text" name="about" class="about-me-input" placeholder="<%= user.about %>"value="<%= user.about %>"></textarea>
+                <button type="submit" class="btn btn-primary">submit</button>
+                <button type="button" class="btn btn-secondary exit-edit-button">exit edit</button>
+              </form>
+              
+              <% } else { %>
+              <form class="edit-form" id="edit-form" action="/update-about" method="POST">
+                <textarea type="text" name="about" placeholder="Write about yourself" class="about-me-input"></textarea>
+                <button type="submit" class="btn btn-primary">submit</button>
+              </form>
+            <% }%>
           </section>
-          <!-- Image section -->
-          <section id="image-section"class="section">
-            <div>
+        </div>  
+        <!-- Image section -->
+          <div class="col-md-6">
+            <section id="image-section"class="section">
               <% if(user.image) { %>
-                <h3>My Image</h3>
-                <img class="current-content" src="<%= user.image %>" alt="image of <%= user.firstName %>" style="max-width: 200px;">
-                <button class="col-3 btn btn-primary edit-button">edit image</button>
+                <img 
+                  class="current-content py-3 mb-4" 
+                  src="<%= user.image %>" 
+                  alt="image of <%= user.firstName %>" 
+                  style="max-width: 200px;">
+                <button class="btn btn-primary d-block mt-3 edit-button">edit image</button>
                 <!-- toggle to edit photo -->
                 <form class="edit-form" id="edit-form" action="/update-image" method="POST" enctype="multipart/form-data" style="display: none;">
                   <div class="mb-3">
@@ -50,76 +51,78 @@
               <% } else { %>
                 <form class="edit-form" action="/update-image" method="POST" enctype="multipart/form-data">
                   <div class="mb-3">
-                    <label for="imgUpload" class="form-label">Upload Image</label>
+                    <label for="imgUpload" class="form-label">Upload An Image</label>
                     <input type="file" class="form-control" id="imageUpload" name="file" required>
                     <button type="submit" class="btn btn-primary">submit</button>
                     <button type="button" class="btn btn-secondary exit-edit-button">exit edit</button>
                   </div>
                 </form>
               <% } %>
-            </div>
-          </section>
+            </section>
+          </div>
+        
+        
+      </div>
 
-          <section class=" container volunteer-schedule  py-3 mb-4 border-bottom">
-            <h3>Current Volunteer Schedule</h3>
-            <div class="container text-center">
-              <div class="d-flex overflow-auto">
-                <% for(let i=0; i<listing.length; i++) {%>
-                  <% for(let j=0; j<listing[i].volunteers.length; j++){ %>
-                    <div class="flex-shrink-0 mx-3" style="width: 200px;">
-                    <li style="list-style-type: none;"">
-                      <% if(listing[i].volunteers[j].email === user.email){ %>
-                        <form
-                          action="/listing/removeVolunteer/<%= listing[i].id %>?_method=DELETE"
-                          method="POST"
-                          class="justify-content-between mt-5 border rounded border-dark-subtle p-3" 
-                          style="list-style-type: none; background-color: #f9f9f9;">
-                      
-                          <input type="hidden" name="name" value="<%= listing[i].volunteers[j].name %>">
-                          <input type="hidden" name="email" value="<%= listing[i].volunteers[j].email %>">
-                          <img class="img-fluid" src="<%= listing[i].image%>">
-                          <a href="/listing/<%= listing[i]._id%>"><h3><%= listing[i].title%></h3></a>
-                          <p><%= listing[i].date %></p>
-                          <button type="submit" class="btn btn-primary">Cancel</button>
-                        </form>
-                        <% } %>
-                    </li>
-                    </div>
-                <% } %>
-              <% } %>
-              </div>
-            </div>
-          </section>
-
-          <section class="container volunteer-openings">
-            <h3>Volunteer Openings</h3>
-            <div class="container text-center">
-              <div class="d-flex overflow-auto">
-                <% for(let i=0; i<listing.length; i++) {%>
-                  <div class="flex-shrink-0 col-3 mx-2">
-                    <li 
+      <section class=" container volunteer-schedule  py-3 mb-4 border-bottom">
+        <h3>Current Volunteer Schedule</h3>
+        <div class="container text-center">
+          <div class="d-flex overflow-auto">
+            <% for(let i=0; i<listing.length; i++) {%>
+              <% for(let j=0; j<listing[i].volunteers.length; j++){ %>
+                <div class="flex-shrink-0 mx-3" style="width: 200px;">
+                <li style="list-style-type: none;"">
+                  <% if(listing[i].volunteers[j].email === user.email){ %>
+                    <form
+                      action="/listing/removeVolunteer/<%= listing[i].id %>?_method=DELETE"
+                      method="POST"
                       class="justify-content-between mt-5 border rounded border-dark-subtle p-3" 
                       style="list-style-type: none; background-color: #f9f9f9;">
-                      <% if(user) { %>
-                        <a href="/listing/<%= listing[i]._id%>">
-                      <% } else { %>
-                        <a href="/login">
-                      <% } %>
-                        <h3><%= listing[i].title%></h3>
-                      </a>
+                  
+                      <input type="hidden" name="name" value="<%= listing[i].volunteers[j].name %>">
+                      <input type="hidden" name="email" value="<%= listing[i].volunteers[j].email %>">
                       <img class="img-fluid" src="<%= listing[i].image%>">
-                      <p><strong>Organziation: </strong><%= listing[i].user%></p>
-                      <p><strong>Description: </strong><%= listing[i].description%></p>
-                      <p><strong>Location: </strong><%= listing[i].location%></p>
-                      <p><strong>Date: </strong><%= listing[i].date%></p>
-                    </li>
-                  </div>
-                <% } %>
+                      <a href="/listing/<%= listing[i]._id%>"><h3><%= listing[i].title%></h3></a>
+                      <p><%= listing[i].date %></p>
+                      <button type="submit" class="btn btn-primary">Cancel</button>
+                    </form>
+                    <% } %>
+                </li>
+                </div>
+            <% } %>
+          <% } %>
+          </div>
+        </div>
+      </section>
+
+      <section class="container volunteer-openings">
+        <h3>Volunteer Openings</h3>
+        <div class="container text-center">
+          <div class="d-flex overflow-auto">
+            <% for(let i=0; i<listing.length; i++) {%>
+              <div class="flex-shrink-0 col-3 mx-2">
+                <li 
+                  class="justify-content-between mt-5 border rounded border-dark-subtle p-3" 
+                  style="list-style-type: none; background-color: #f9f9f9;">
+                  <% if(user) { %>
+                    <a href="/listing/<%= listing[i]._id%>">
+                  <% } else { %>
+                    <a href="/login">
+                  <% } %>
+                    <h3><%= listing[i].title%></h3>
+                  </a>
+                  <img class="img-fluid" src="<%= listing[i].image%>">
+                  <p><strong>Organziation: </strong><%= listing[i].user%></p>
+                  <p><strong>Description: </strong><%= listing[i].description%></p>
+                  <p><strong>Location: </strong><%= listing[i].location%></p>
+                  <p><strong>Date: </strong><%= listing[i].date%></p>
+                </li>
               </div>
-            </div>
-          </section>
-      
-    </div>
+            <% } %>
+          </div>
+        </div>
+      </section>
+    
   </div>
 </div>
 
