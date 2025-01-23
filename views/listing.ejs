@@ -60,7 +60,10 @@
             action="/listing/signUpListing/<%= listing.id %>" 
             method="GET" 
             class="col-3">
-            <button class="btn btn-primary">Sign-Up</button>
+              <% const isUserInVolunteers = listing.volunteers && listing.volunteers.some(vol => vol.email === user.email);%>
+              <% if(!isUserInVolunteers){ %>
+                <button class="btn btn-primary">Sign-Up</button>
+              <% } %>
           </form>
           <div class="col-3 mt-5">
             <div class="volunteer-container">
