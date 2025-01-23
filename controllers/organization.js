@@ -5,7 +5,7 @@ const Listing = require("../models/Listing");
 
   exports.getOrganization = async (req, res) => {
     try{
-      const listing = await Listing.find({ organization: req.user.organizationId });
+      const listing = await Listing.find({ organization: req.user.organizationId }).sort({ date:1 });
       res.render("organization.ejs", { user: req.user, listing: listing });
     } catch (err) {
       console.error("Error fetching organization data:", err);

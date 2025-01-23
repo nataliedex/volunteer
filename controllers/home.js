@@ -5,7 +5,7 @@ const Organization = require("../models/Organization");
 module.exports = {
   getIndex: async (req, res) => {
     try{
-      const listings = await Listing.find({});
+      const listings = await Listing.find({}).sort({ date:1 });
       res.render("index.ejs", { listing: listings, user: req.user });
     } catch(err) {
       console.log(err);
@@ -14,10 +14,10 @@ module.exports = {
     
   },
   getAbout: (req, res) => {
-    res.render("about.ejs", { section: "about"});
+    res.render("about.ejs", { user: req.user || null, section: "about"});
   },
   getFaqs: (req, res) => {
-    res.render("about.ejs", { section: "faqs"});
+    res.render("about.ejs", { user: req.user || null, section: "faqs"});
   },
 
 };

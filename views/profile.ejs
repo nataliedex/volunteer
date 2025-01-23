@@ -1,7 +1,7 @@
 <%- include('partials/header') -%>
 <div class="container">
   <div class="row mt-5">
-      <div class="col-6">
+      <div class="col">
           <div>
               <h3>This is the INDIVIDUAL page</h3>
               <p><strong>Welcome</strong> <%= user.firstName %></p>
@@ -60,52 +60,63 @@
             </div>
           </section>
 
-          <section class="volunteer-schedule">
+          <section class=" container volunteer-schedule  py-3 mb-4 border-bottom">
             <h3>Current Volunteer Schedule</h3>
-            <ul class="row list-unstyled">
-              <% for(let i=0; i<listing.length; i++) {%>
-                <% for(let j=0; j<listing[i].volunteers.length; j++){ %>
-
-                    <li class="col-6 justify-content-between mt-5">
+            <div class="container text-center">
+              <div class="d-flex overflow-auto">
+                <% for(let i=0; i<listing.length; i++) {%>
+                  <% for(let j=0; j<listing[i].volunteers.length; j++){ %>
+                    <div class="flex-shrink-0 mx-3" style="width: 200px;">
+                    <li style="list-style-type: none;"">
                       <% if(listing[i].volunteers[j].email === user.email){ %>
                         <form
                           action="/listing/removeVolunteer/<%= listing[i].id %>?_method=DELETE"
                           method="POST"
-                          class="col-3"
-                        >
+                          class="justify-content-between mt-5 border rounded border-dark-subtle p-3" 
+                          style="list-style-type: none; background-color: #f9f9f9;">
+                      
                           <input type="hidden" name="name" value="<%= listing[i].volunteers[j].name %>">
                           <input type="hidden" name="email" value="<%= listing[i].volunteers[j].email %>">
-                          <a href="/listing/<%= listing[i]._id%>"><h3><%= listing[i].title %></h3></a>
                           <img class="img-fluid" src="<%= listing[i].image%>">
+                          <a href="/listing/<%= listing[i]._id%>"><h3><%= listing[i].title%></h3></a>
                           <p><%= listing[i].date %></p>
                           <button type="submit" class="btn btn-primary">Cancel</button>
                         </form>
                         <% } %>
-                    <% } %>
                     </li>
+                    </div>
+                <% } %>
               <% } %>
-              </ul>
+              </div>
+            </div>
           </section>
-          <section class="volunteer-openings">
+
+          <section class="container volunteer-openings">
             <h3>Volunteer Openings</h3>
-            <div class="container">
-              <div class="row justify-content-center mt-5">
-                <ul class="row list-unstyled">
-                  <% for(let i=0; i<listing.length; i++) {%>
-                    <li class="col-6 justify-content-between mt-5">
-                      <a href="/listing/<%= listing[i]._id%>">
+            <div class="container text-center">
+              <div class="d-flex overflow-auto">
+                <% for(let i=0; i<listing.length; i++) {%>
+                  <div class="flex-shrink-0 col-3 mx-2">
+                    <li 
+                      class="justify-content-between mt-5 border rounded border-dark-subtle p-3" 
+                      style="list-style-type: none; background-color: #f9f9f9;">
+                      <% if(user) { %>
+                        <a href="/listing/<%= listing[i]._id%>">
+                      <% } else { %>
+                        <a href="/login">
+                      <% } %>
                         <h3><%= listing[i].title%></h3>
                       </a>
                       <img class="img-fluid" src="<%= listing[i].image%>">
-                      <p><%= listing[i].user%></p>
-                      <p><%= listing[i].description%></p>
-                      <p><%= listing[i].location%></p>
-                      <p><%= listing[i].date%></p>
+                      <p><strong>Organziation: </strong><%= listing[i].user%></p>
+                      <p><strong>Description: </strong><%= listing[i].description%></p>
+                      <p><strong>Location: </strong><%= listing[i].location%></p>
+                      <p><strong>Date: </strong><%= listing[i].date%></p>
                     </li>
-                  <% } %>
-                  </ul>
+                  </div>
+                <% } %>
               </div>
-            </div> 
+            </div>
           </section>
       
     </div>

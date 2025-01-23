@@ -15,9 +15,7 @@ exports.getLogin = (req, res) => {
       return res.redirect("/login");
     }
   }
-  res.render("login", {
-    title: "Login",
-  });
+  res.render("login.ejs", { user: req.user || null });
 };
 
 exports.postLogin = (req, res, next) => {

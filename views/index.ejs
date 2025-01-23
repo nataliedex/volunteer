@@ -3,8 +3,8 @@
 <main class="container">
   <div class="container">
       <div class="text-center">
-        <h1>Volunteer Database</h1>
-        <span>find an opportunity near you</span>
+        <h1>VolunteerConnect</h1>
+        <em>Volunteers connecting with Organizations: Organizations connecting with Volunteers</em>
       </div>
   </div>
 <!-- Bootstrap Carousel -->
@@ -49,28 +49,46 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
-
-  <p>I'm baby lomo fit deep v, twee DIY fingerstache craft beer letterpress bitters cloud bread four loko kickstarter. Twee brunch four dollar toast locavore tumblr ennui. Blue bottle mukbang celiac, vice ascot adaptogen hella +1 food truck hammock blog small batch solarpunk XOXO tacos. Post-ironic hot chicken mumblecore everyday carry.</p>
-  <!-- listings -->
+  <div class="container">
+    <p><strong>About VolunteerConnect</strong></br>
+      Our platform is designed to connect volunteers with organizations in need, making it easier than ever to find meaningful ways to give back to the community. Whether you’re an organization looking for passionate volunteers or an individual seeking rewarding opportunities, we bring everyone together in one convenient place.
+      
+    </br></br>
+      As an organization, you can post your events and volunteer opportunities, complete with detailed descriptions, locations, and dates. Highlight what your event is about, the roles you’re looking to fill, and the impact volunteers can make. Once your listing is live, potential volunteers can easily find and sign up for your opportunities, streamlining the process of building your team of helpers.
+      
+    </br></br>
+      For individuals eager to make a difference, our platform offers a user-friendly way to discover volunteer opportunities that fit your interests, skills, and schedule. After signing up, browse through available events and find causes that resonate with you. With just a few clicks, you can join an event and take the first step toward making a positive impact.
+      
+      Together, we aim to foster a stronger sense of community and make it simpler for everyone to contribute to causes they care about.</p>
+  
+  </div>
+    <!-- listings -->
   <h3>Current Listings</h3>
-  <ul class="row list-unstyled">
-    <% for(let i=0; i<listing.length; i++) {%>
-      <li class="col-6 justify-content-between mt-5">
-        <% if(user) { %>
-          <a href="/listing/<%= listing[i]._id%>">
-        <% } else { %>
-          <a href="/login">
-        <% } %>
-          <h3><%= listing[i].title%></h3>
-        </a>
-        <img class="img-fluid" src="<%= listing[i].image%>">
-        <p><%= listing[i].user%></p>
-        <p><%= listing[i].description%></p>
-        <p><%= listing[i].location%></p>
-        <p><%= listing[i].date%></p>
-      </li>
-    <% } %>
-    </ul>
+  <div class="container text-center">
+    <div class="d-flex overflow-auto">
+      <% for(let i=0; i<listing.length; i++) {%>
+        <div class="flex-shrink-0 col-3 mx-2">
+          <li 
+            class="justify-content-between mt-5 border rounded border-dark-subtle p-3" 
+            style="list-style-type: none; background-color: #f9f9f9;">
+            <% if(user) { %>
+              <a href="/listing/<%= listing[i]._id%>">
+            <% } else { %>
+              <a href="/login">
+            <% } %>
+              <h3><%= listing[i].title%></h3>
+            </a>
+            <img class="img-fluid" src="<%= listing[i].image%>">
+            <p><strong>Organziation: </strong><%= listing[i].user%></p>
+            <p><strong>Description: </strong><%= listing[i].description%></p>
+            <p><strong>Location: </strong><%= listing[i].location%></p>
+            <p><strong>Date: </strong><%= listing[i].date%></p>
+          </li>
+        </div>
+      <% } %>
+    </div>
+  </div>
+
 </main>
     
 
