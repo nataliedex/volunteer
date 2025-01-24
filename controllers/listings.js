@@ -38,7 +38,6 @@ module.exports = {
   },
 
   addVolunteer: async (req, res) => {
-    console.log("here!");
     try {
       const userId = req.user.id;
       const user = await User.findById(userId);

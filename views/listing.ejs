@@ -42,9 +42,10 @@
 </div>
 <!-- This is what the hosting organization will see  -->
 <div class="container">
-  <form id="update-listing-form" action="/listing/updateListing/<%= listing.id %>" method="POST">
+  
   <!-- if the listing organization views the page -->
   <%if(user && user.organization === listing.user){ %>
+    <form id="update-listing-form" action="/listing/updateListing/<%= listing.id %>" method="POST">
     <div id="listing-information" class="row g-3 align-items-stretch">
       <!-- image -->
       <div class="col-md-6 d-flex align-items-center justify-content-center">
