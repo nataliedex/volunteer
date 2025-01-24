@@ -99,6 +99,11 @@ formData.set("description", updatedDescription);
 formData.set("location", updatedLocation);
 formData.set("date", updatedDate);
 
+// Toggle button visibility
+editButton.style.display = "block";
+saveButton.style.display = "none";
+exitButton.style.display = "none";
+
 // Submit the form if needed
 form.submit();
 });

@@ -9,8 +9,6 @@ module.exports = {
 
       const listing = await Listing.findById(req.params.id);
       const organization = await Organization.findOne({ organization: listing.user });
-      console.log("listing.user", listing.user);
-      console.log("user", req.user);
 
       res.render("listing.ejs", { 
         listing, 
@@ -33,30 +31,18 @@ module.exports = {
         image: req.user.image,
       });
       console.log("Listing has been added!");
-      res.redirect("/organization");
+      res.redirect("/organization#current-listings");
     } catch (err) {
       console.log(err);
-    }
-  },
-
-
-  getSignUpListing: async (req, res) => {
-    try {
-      const userId = req.user.id;
-      const listing = await Listing.findById(req.params.id);
-      const user = await User.findById(userId);
-      res.redirect("/profile");
-    } catch (err) {
-      console.log(err);
-      res.status(500).send("Server error");
     }
   },
 
   addVolunteer: async (req, res) => {
+    console.log("here!");
     try {
       const userId = req.user.id;
       const user = await User.findById(userId);
-
+      
       await Listing.findByIdAndUpdate(
         req.params.id, 
         { 
@@ -69,7 +55,7 @@ module.exports = {
         } 
       );
           console.log("Volunteer added to the listing");
-          res.redirect("/profile");
+          res.redirect("/profile#volunteer-schedule");
 
 
     } catch (err) {
@@ -117,7 +103,6 @@ module.exports = {
         { description, location, date },
         { new: true }
       );
-      console.log("Updated Listing", updatedListing);
       res.redirect(`/listing/${req.params.id}`);
     } catch (err) {
       console.error("Error updating listing", err);
