@@ -124,6 +124,16 @@
                   <p><strong>Description: </strong><%= listing[i].description%></p>
                   <p><strong>Location: </strong><%= listing[i].location%></p>
                   <p><strong>Date: </strong><%= listing[i].date%></p>
+                  <form 
+                    id="add-volunteer-to-listing" 
+                    action="/listing/addVolunteer/<%= listing[i].id %>" 
+                    method="POST"
+                  > 
+                    <% const isUserInVolunteers = listing[i].volunteers && listing[i].volunteers.some(vol => vol.email === user.email);%>
+                    <% if(!isUserInVolunteers){ %>
+                      <button class="btn btn-primary">Sign Up</button></td>
+                    <% } %>
+                  </form>
                 </li>
               </div>
             <% } %>

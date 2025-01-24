@@ -45,7 +45,7 @@ module.exports = {
       const userId = req.user.id;
       const listing = await Listing.findById(req.params.id);
       const user = await User.findById(userId);
-      res.render("volunteer-signup.ejs", { listing, user });
+      res.redirect("/profile");
     } catch (err) {
       console.log(err);
       res.status(500).send("Server error");
@@ -69,7 +69,7 @@ module.exports = {
         } 
       );
           console.log("Volunteer added to the listing");
-          res.redirect(`/listing/${req.params.id}`);
+          res.redirect("/profile");
 
 
     } catch (err) {

@@ -12,6 +12,7 @@
             <tr>
               <th>Name</th>
               <th>Email</th>
+              <th>Edit</th>
             </tr>
           </thead>
           <tbody>
@@ -19,6 +20,17 @@
               <tr>
                 <td><%= listing.volunteers[i].name%></td>
                 <td><%= listing.volunteers[i].email%></td>
+                <% if(user.email === listing.volunteers[i].email) { %>
+                <td>
+                  <form
+                    action="/listing/removeVolunteer/<%= listing.id %>?_method=DELETE"
+                    method="POST"
+                  >
+                    <input type="hidden" name="name" value="<%= listing.volunteers[i].name %>">
+                    <input type="hidden" name="email" value="<%= listing.volunteers[i].email %>">
+                    <button class="btn btn-primary">Cancel</button></td>
+                  </form>
+                <% } %>
               </tr>
             <% } %>
           </tbody>
@@ -27,7 +39,7 @@
     </div>
   </div>
 </div>
-
+<!-- This is what the hosting organization will see  -->
   <div class="row container py-3 mb-4">
     <div class="col-md-6">
       <%if(user && user.organization === listing.user){ %>
@@ -69,9 +81,12 @@
         <a class="btn btn-primary" href="/organization">Back</a>
       </div>
       <% } else { %>
+
+        <!-- this is what the volunteers see -->
       <form 
-        action="/listing/signUpListing/<%= listing.id %>" 
-        method="GET" 
+        id="add-volunteer-to-listing" 
+        action="/listing/addVolunteer/<%= listing.id %>" 
+        method="POST" 
         class="col-3">
           <% const isUserInVolunteers = listing.volunteers && listing.volunteers.some(vol => vol.email === user.email);%>
           <% if(!isUserInVolunteers){ %>
