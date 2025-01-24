@@ -68,29 +68,37 @@
         <h3>Current Volunteer Schedule</h3>
         <div class="container text-center">
           <div class="d-flex overflow-auto">
-            <% for(let i=0; i<listing.length; i++) {%>
-              <% for(let j=0; j<listing[i].volunteers.length; j++){ %>
-                <div class="flex-shrink-0 mx-3" style="width: 200px;">
-                <li style="list-style-type: none;"">
-                  <% if(listing[i].volunteers[j].email === user.email){ %>
-                    <form
-                      action="/listing/removeVolunteer/<%= listing[i].id %>?_method=DELETE"
-                      method="POST"
-                      class="justify-content-between mt-5 border rounded border-dark-subtle p-3" 
-                      style="list-style-type: none; background-color: #f9f9f9;">
-                  
-                      <input type="hidden" name="name" value="<%= listing[i].volunteers[j].name %>">
-                      <input type="hidden" name="email" value="<%= listing[i].volunteers[j].email %>">
-                      <img class="img-fluid" src="<%= listing[i].image%>">
-                      <a href="/listing/<%= listing[i]._id%>"><h3><%= listing[i].title%></h3></a>
-                      <p><%= listing[i].date %></p>
-                      <button type="submit" class="btn btn-primary">Cancel</button>
-                    </form>
-                    <% } %>
-                </li>
-                </div>
+            <% if(listing.length > 0) { %>
+              <% for(let i=0; i<listing.length; i++) {%>
+                <% if(listing[i].volunteers && listing[i].volunteers.length > 0 ) { %>
+                  <% for(let j=0; j<listing[i].volunteers.length; j++){ %>
+                    <% if(listing[i].volunteers[j].email === user.email){ %>
+                      <div class="flex-shrink-0 mx-3" style="width: 200px;">
+                        <form
+                          action="/listing/removeVolunteer/<%= listing[i].id %>?_method=DELETE"
+                          method="POST"
+                          class="justify-content-between mt-5 border rounded border-dark-subtle p-3" 
+                          style="list-style-type: none; background-color: #f9f9f9;">
+                      
+                          <input type="hidden" name="name" value="<%= listing[i].volunteers[j].name %>">
+                          <input type="hidden" name="email" value="<%= listing[i].volunteers[j].email %>">
+                          <img class="img-fluid" src="<%= listing[i].image%>">
+                          <a href="/listing/<%= listing[i]._id%>">
+                            <h3><%= listing[i].title%></h3>
+                          </a>
+                          <p><%= listing[i].date %></p>
+                          <button type="submit" class="btn btn-primary">Cancel</button>
+                        </form>
+                    </div>
+                  <% } %>
+                <% } %>
+                
+              <% } %>
             <% } %>
+          <% } else { %>
+            <p>No volunteer schedules available</p>
           <% } %>
+            
           </div>
         </div>
       </section>
