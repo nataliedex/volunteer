@@ -18,19 +18,28 @@
       <p class="fs-4 d-flex flex-column align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none" style="text-align: center;">
         <% if(user){ %>
           <div id="greeting">
+            <% const time = new Date().getHours() %>
+            <% let timeGreeting; %>
+            <% if(time < 12){ %>
+                <% timeGreeting = "Good Morning, "; %>
+            <% } else if(time < 18){ %>
+              <% timeGreeting = "Good Afternoon, "; %>
+            <% } else { %> 
+              <% timeGreeting = "Good Evening, "; %>
+            <% } %>
             <% if(user.userType === "Volunteer"){ %>
               <a 
                 href="/profile" 
                 class="d-flex flex-column align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none" 
                 style="text-align: center;"
-                >Hey, <%= user.firstName %>!
+                ><%= timeGreeting  %> <%= user.firstName %>!
               </a>
             <% } else { %>
               <a 
                 href="/organization" 
                 class="d-flex flex-column align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none" 
                 style="text-align: center;"
-                >Nice to see you, <%= user.organization %>
+                ><%= timeGreeting %><%= user.organization %>
               </a>
             <% } %>
           </div>
