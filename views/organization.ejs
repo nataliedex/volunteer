@@ -1,13 +1,7 @@
 <%- include('partials/header') -%>
 <% const time = new Date().getHours() %>
-<% let timeGreeting; %>
-<% if(time < 12){ %>
-    <% timeGreeting = "Good Morning, "; %>
-<% } else if(time < 18){ %>
-  <% timeGreeting = "Good Afternoon, "; %>
-<% } else { %> 
-  <% timeGreeting = "Good Evening, "; %>
-<% } %>
+<% const timeGreeting = time < 12 ? "Good Morning, " : time < 18 ? "Good Afternoon, " : "Good Evening, "; %>
+
 <div class="container">
   <div class="row mt-5">
       <div>
