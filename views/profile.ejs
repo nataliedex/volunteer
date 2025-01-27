@@ -1,8 +1,19 @@
 <%- include('partials/header') -%>
+<!-- changes the greeting based on the time of day -->
+<% const time = new Date().getHours() %>
+<% let timeGreeting; %>
+<% if(time < 12){ %>
+    <% timeGreeting = "Good Morning, "; %>
+<% } else if(time < 18){ %>
+  <% timeGreeting = "Good Afternoon, "; %>
+<% } else { %> 
+  <% timeGreeting = "Good Evening, "; %>
+<% } %>
+
 <div class="container">
   <div class="row mt-5">
       <div>
-          <h3><strong>Welcome</strong> <%= user.firstName %>!</h3>
+          <h3><strong><%= timeGreeting %></strong> <%= user.firstName %>!</h3>
           <p>This is your home base for finding new and exciting Volunteer Opportunties. <strong>Let's Connect!</strong></p>
       </div>
       <div class="row  py-3 mb-4 border-bottom container">
